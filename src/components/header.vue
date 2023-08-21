@@ -1,0 +1,72 @@
+<template>
+    <div class="flex text-white bg-earth">
+
+        <Bars4Icon v-if="!shopExpanded" class="w-8 cursor-pointer" @click="shopExpanded = true"></Bars4Icon>
+        <XMarkIcon v-else class="w-8 cursor-pointer" @click="shopExpanded = false"></XMarkIcon>
+        
+        <div class="flex items-center justify-center w-full">
+                <!-- Flowers -->
+            <div class="flex justify-center">
+                <!-- blossoms -->
+                <div>
+
+                    <div class="flex justify-center items-center">
+                        <div>
+                            <img class="w-16" :src="blossom"/>
+                        </div>
+                        <div class=" text-2xl">
+                            {{ flowers }} 
+                        </div>
+                    </div>
+                    <div class=" text-center">
+                        Per second: {{ flowersPerSecond }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <HelpersMenu :expanded="shopExpanded"/>
+
+</template>
+
+<script setup lang="ts">
+import blossom from "@/assets/Plants/blossom.svg";
+import { ref } from "vue";
+import { useFarmStore } from "@/stores/farm";
+import { useRouter } from "vue-router";
+import HelpersMenu from '@/components/helpersMenu.vue';
+import { Bars4Icon, XMarkIcon } from "@heroicons/vue/24/solid";
+import { useShopStore } from "@/stores/shop";
+import { STATEMENT_TYPES } from "@babel/types";
+import { Building } from "@/classes/building";
+
+const farmStore = useFarmStore();
+const router = useRouter();
+const shopStore = useShopStore();
+
+let flowersPerSecond = ref(0 as number);
+
+let flowers = ref(shopStore.flowers);
+
+let shopExpanded = ref(false);
+
+let lerp = (start, end, amt) => {
+  return (1-amt)*start+amt*end;
+}
+
+// subscribe to the store
+shopStore.$subscribe((mutation, state) => {
+    // * this is a test of how fast pinia really is .-.
+
+    // ! cookie clicker rounds their cookies!
+
+    flowers.value = Math.round(state.flowers);
+    // 0 at the end is the initial value of the accumulator
+
+    // round to first decimal float
+    flowersPerSecond.value = Object.values(state.buildings).reduce((accumulator: number, building : Building) => accumulator + building.currentPollinationPower * building.totalOwned, 0 as number);
+
+    flowersPerSecond.value = Number(flowersPerSecond.value.toFixed(1));
+});
+
+</script>
