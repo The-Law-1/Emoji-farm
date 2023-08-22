@@ -1,6 +1,6 @@
 <template>
     <!-- Clicking this will give you 1 x clickpower flowers -->
-    <img class="w-24 cursor-pointer select-none" :src="skin" @click="clickedFlower"/>
+    <img class=" w-28 cursor-pointer select-none" :src="skin" @click="clickedFlower"/>
 </template>
 
 <script setup lang="ts">

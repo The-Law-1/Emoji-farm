@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-[20%] flex justify-center items-center">
+    <div class="mt-[10%] flex justify-center items-center">
         <MainFlower :skin="svgDictionary[mainFlowerName.toLowerCase()]"/>
 
         <!-- TODO could be a p5js canvas so you can drag/scroll to see your flowers -->

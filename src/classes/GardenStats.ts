@@ -3,8 +3,10 @@ export class GardenStats {
 
     pollinationPower: number = 1;
 
-    totalBees: number = 0;
 
+    // TODO replace this with an array of buildings, make sure the fields correspond right
+    totalBees: number = 0;
+    
     currentBeesCost: number = 15;
     currentBeesPower: number = 0.2; // will be upgraded with upgrades
     beesBasePower: number = 0.2; 

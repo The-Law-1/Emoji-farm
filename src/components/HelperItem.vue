@@ -20,11 +20,27 @@
         </div>
   
         <span
-            v-if="canBuyBuilding"
-            class="  text-base -z-10 absolute top-0 left-full h-16 w-64 bg-earth text-white pl-4 transition-all duration-300 transform"
-            :class="{ '-translate-x-full text-transparent': (!infoPanelExpanded) }"
+            class="  text-base -z-10 absolute top-0 left-full h-auto w-64 bg-earth text-white pl-4 transition-all duration-300 transform"
+            :class="{ '-translate-x-full text-earth': (!infoPanelExpanded) }"
         >
-            An extended panel to show info
+            <div>
+                {{ description }}
+            </div>
+
+
+            <div :class="{ 'bg-gray-400 bg-opacity-50 rounded-md' : (infoPanelExpanded)}">
+                <!-- insert tiny flower image here -->
+                {{ "Each unit produces " + building.currentPollinationPower }}
+                <span class="inline-flex" v-show="infoPanelExpanded">
+                    <img class=" w-4" :src="blossom"/>
+                </span>
+                <span>per second</span>
+            </div>
+            <div :class="{ 'bg-gray-400 bg-opacity-50 rounded-md' : (infoPanelExpanded)}">
+                {{ building.totalOwned + " producing " + (building.currentPollinationPower * building.totalOwned).toFixed(1) + " per second" }}
+            </div>
+            <!-- How many you have, producing x per second -->
+            <!-- Cookies generated so far? -->
         </span>
     </div>
 </template>
@@ -43,6 +59,10 @@ defineProps({
     canBuyBuilding: {
         type: Boolean,
         required: true
+    },
+    description: {
+        type: String,
+        required: false
     }
 });
 

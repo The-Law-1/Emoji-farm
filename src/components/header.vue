@@ -37,7 +37,6 @@ import { useRouter } from "vue-router";
 import HelpersMenu from '@/components/helpersMenu.vue';
 import { Bars4Icon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { useShopStore } from "@/stores/shop";
-import { STATEMENT_TYPES } from "@babel/types";
 import { Building } from "@/classes/building";
 
 const farmStore = useFarmStore();

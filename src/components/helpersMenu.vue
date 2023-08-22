@@ -13,6 +13,7 @@
         <HelperItem v-if="buildings['bees'] !== undefined"
             :building="buildings['bees']"
             :can-buy-building="canBuyBuildings['bees']"
+            :description="'Helpful bees to pollinate your flowers'"
             @click="() => buyBuilding('bees')">
 
         </HelperItem>
