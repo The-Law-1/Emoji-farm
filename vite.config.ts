@@ -16,7 +16,7 @@ export default ({ mode }) => {
         },
       },
       server: {
-        port: 3000,
+        port: parseInt(process.env.VITE_PORT) || 3001,
         // host: process.env.VITE_BACKEND_HOST || "localhost:8080",
         // proxy: {
         //   "^/api": {

@@ -1,5 +1,6 @@
 import { GardenStats } from "@/classes/GardenStats";
 import { Building } from "@/classes/building";
+import { FLOWBASEANNOTATION_TYPES } from "@babel/types";
 import { defineStore } from "pinia";
 
 export const useShopStore = defineStore("shop", {
@@ -68,6 +69,7 @@ export const useShopStore = defineStore("shop", {
         // },
         initStore(gardenStats: GardenStats) {
             this.flowers = gardenStats.totalFlowers;
+            console.log("Init store with:" + this.flowers);
 
             this.buildings = gardenStats.buldings;
 

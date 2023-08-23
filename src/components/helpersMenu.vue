@@ -11,7 +11,7 @@
 
         <!-- v-for on Object.values(buildings) ? -->
         <HelperItem v-if="buildings['bees'] !== undefined"
-            :building="buildings['bees']"
+            :building="(buildings['bees'] as Building)"
             :can-buy-building="canBuyBuildings['bees']"
             :description="'Helpful bees to pollinate your flowers'"
             @click="() => buyBuilding('bees')">

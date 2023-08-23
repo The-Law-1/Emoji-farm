@@ -9,10 +9,14 @@
 const Base64 = {
 
     // private property, get from environment
-    _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+    _keyStr : import.meta.env.VITE_BASE_64_KEY || "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
     // public method for encoding
     encode : function (input) {
+
+        console.log("Encoding with key: " + this._keyStr);
+
         var output = "";
         var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
         var i = 0;

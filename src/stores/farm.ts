@@ -28,12 +28,19 @@ export const useFarmStore = defineStore("farm", {
             this.shopStore.reapFlower(power);
         },
         saveFarm() {
+
+            this.gardenStats.totalFlowers = this.shopStore.flowers;
+
             let baseString = JSON.stringify(this.gardenStats);
 
             let encoded = this.utilsStore.base64.encode(baseString);
 
+
             // store encoded string in local storage
             localStorage.setItem("gardenStats", encoded);
+        },
+        clearFarm() {
+            localStorage.removeItem("gardenStats");
         },
         initFarm() {
             
@@ -55,6 +62,7 @@ export const useFarmStore = defineStore("farm", {
 
             shopStore.initStore(this.gardenStats);
     
+
             this.gardenInitialized = true;
         }
     }

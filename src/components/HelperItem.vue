@@ -54,12 +54,12 @@
 
 <script setup lang="ts">
 import { Building } from '@/classes/building';
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 import blossom from "@/assets/Plants/blossom.svg";
 
 defineProps({
     building: {
-        type: Building,
+        type: Object as PropType<Building>,
         required: true
     },
     canBuyBuilding: {

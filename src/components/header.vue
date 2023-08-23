@@ -24,6 +24,12 @@
                 </div>
             </div>
         </div>
+
+        <div class=" flex justify-center items-center mr-2 space-x-2">
+            <button class="bg-stone-600 p-1 outline-stone-300 outline outline-1" @click="farmStore.saveFarm()">Save</button>
+            <button class="bg-stone-600 p-1 outline-stone-300 outline outline-1" @click="farmStore.clearFarm()">Clear</button>
+
+        </div>
     </div>
     <HelpersMenu :expanded="shopExpanded"/>
 
