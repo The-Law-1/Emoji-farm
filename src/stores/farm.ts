@@ -1,25 +1,23 @@
-import { Flower } from "@/classes/flower";
 import { defineStore } from "pinia";
 import { GardenStats } from "@/classes/GardenStats";
 import { useShopStore } from "./shop";
+import { useUtilitiesStore } from "./utils";
 
 export const useFarmStore = defineStore("farm", {
 
-    // state: {
-    //     garden: [] as Flower[][];
-    // }
     state: () => {
         return {
-            garden: [] as Flower[], // maybe an array of strings that are the flower names and their positions?
             // blossomStats: {} as FlowerStats,
-            gardenStats: new GardenStats() as GardenStats ,
+            gardenStats: new GardenStats() as GardenStats,
             shopStore: useShopStore(),
 
             // TODO you will likely have an interval for each building type, so a dictionary of them?
             beesInterval: null as unknown as NodeJS.Timeout,
 
             // currentInterval: null as unknown as NodeJS.Timeout,
-            gardenInitialized: false
+            gardenInitialized: false,
+
+            utilsStore: useUtilitiesStore()
         }
     },
     actions: {
@@ -30,8 +28,12 @@ export const useFarmStore = defineStore("farm", {
             this.shopStore.reapFlower(power);
         },
         saveFarm() {
-            // TODO convert your gardenstats into base JSON string then into base64 and store in localstorage
+            let baseString = JSON.stringify(this.gardenStats);
 
+            let encoded = this.utilsStore.base64.encode(baseString);
+
+            // store encoded string in local storage
+            localStorage.setItem("gardenStats", encoded);
         },
         initFarm() {
             
@@ -39,10 +41,14 @@ export const useFarmStore = defineStore("farm", {
                 return;
             }
 
-            // TODO: load garden and stats from local storage
+            if (localStorage.getItem("gardenStats") !== null) {
 
-            // load gardenstats with local storage
-            // this.gardenStats.load(string)
+                let encoded = localStorage.getItem("gardenStats") as string;
+
+                let decoded = this.utilsStore.base64.decode(encoded);
+
+                this.gardenStats = JSON.parse(decoded) as GardenStats;
+            }
 
             // init the shop store with gardenstats
             let shopStore = useShopStore();
@@ -52,8 +58,6 @@ export const useFarmStore = defineStore("farm", {
             this.gardenInitialized = true;
         }
     }
-
-    // let garden = [] as Flower[][];
 
 
     // return {

@@ -67,11 +67,9 @@ export const useShopStore = defineStore("shop", {
 
         // },
         initStore(gardenStats: GardenStats) {
-            this.bees = gardenStats.totalBees;
-
             this.flowers = gardenStats.totalFlowers;
 
-            this.buildings["bees"] = new Building("bees", gardenStats.currentBeesPower, gardenStats.currentBeesCost, gardenStats.beesBaseCost, gardenStats.beesCostMultiplier);
+            this.buildings = gardenStats.buldings;
 
             this.buildingsInterval = setInterval(() => {
                 // loop through your buildings dictionary, and calculate how many you increase by

@@ -27,6 +27,7 @@ const mainFlowerName = ref("blossom");
 farmStore.initFarm();
 
 onMounted(() => {
+
 });
 
 </script>
