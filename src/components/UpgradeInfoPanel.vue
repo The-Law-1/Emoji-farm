@@ -1,6 +1,7 @@
 <template>
 
   <InfoPanel
+    class="  "
     :info-panel-expanded="infoPanelExpanded">
     <div>
       {{ upgrade.title }}

@@ -31,6 +31,8 @@ export const useFarmStore = defineStore("farm", {
 
             this.gardenStats.totalFlowers = this.shopStore.flowers;
 
+            this.gardenStats.upgrades = this.shopStore.upgrades;
+
             let baseString = JSON.stringify(this.gardenStats);
 
             let encoded = this.utilsStore.base64.encode(baseString);

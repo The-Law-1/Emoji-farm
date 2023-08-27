@@ -3,6 +3,7 @@ import { Building } from "./building";
 export class Upgrade {
   title: string = "";
 
+  // you better make these correspond to building names
   svgPath: string = "";
 
   description: string = "";
@@ -10,6 +11,8 @@ export class Upgrade {
   cost: number = 0;
 
   condition: Function = (building: Building) => true;
+
+  owned: boolean = false;
 
   // colour tier
 

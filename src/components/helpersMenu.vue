@@ -20,18 +20,27 @@
         <li>Menu Item 3</li>
       </ul>
 
-      <div class="mt-10 overflow-y-scroll max-h-48 grid grid-cols-3">
-        <!-- <HelperUpgrade>
-        </HelperUpgrade>
-        <HelperUpgrade>
-        </HelperUpgrade>
-        <HelperUpgrade>
-        </HelperUpgrade>
+      <!-- I guess width 64 - padding 4 that we use up there? I'm confused ngl -->
+      <div class="fixed w-60">
 
-        <HelperUpgrade>
-        </HelperUpgrade> -->
+        <div class=" flex flex-wrap">
+          
+          <HelperUpgrade v-for="upgrade in accessibleUpgrades"
+            :upgrade="upgrade"
+            :key="upgrade.title"
+            @mouseover="currentUpgradeHovered = upgrade"
+            @mouseleave="currentUpgradeHovered = null">
+          </HelperUpgrade>
+        </div>
 
+        <UpgradeInfoPanel
+          v-if="currentUpgradeHovered != null"
+          :upgrade="currentUpgradeHovered"
+          :info-panel-expanded="currentUpgradeHovered != null">
+          
+        </UpgradeInfoPanel>
       </div>
+
     </div>
   </template>
   
@@ -43,6 +52,8 @@ import blossom from "@/assets/Plants/blossom.svg";
 import { Building } from '@/classes/building';
 import HelperItem from './HelperItem.vue';
 import HelperUpgrade from './HelperUpgrade.vue';
+import { Upgrade } from '@/classes/Upgrade';
+import UpgradeInfoPanel from './UpgradeInfoPanel.vue';
 
 let farmStore = useFarmStore();
 let shopStore = useShopStore();
@@ -50,6 +61,10 @@ let shopStore = useShopStore();
 let buildings = ref(shopStore.buildings as {[key: string] : Building});
 
 let canBuyBuildings = ref({} as {[key: string] : boolean});
+
+let accessibleUpgrades = ref([] as Upgrade[]);
+
+let currentUpgradeHovered = ref(null as Upgrade | null);
 
 farmStore.$subscribe((mutation, state) => {
 });
@@ -61,6 +76,8 @@ shopStore.$subscribe((mutation, state) => {
     Object.entries(buildings.value).forEach(([name, building] : [string, Building]) => {
         canBuyBuildings.value[name] = state.flowers >= building.currentCost;
     });
+
+    accessibleUpgrades.value = state.accessibleUpgrades;
 });
 
 let buyBuilding = ref((name: string) => {

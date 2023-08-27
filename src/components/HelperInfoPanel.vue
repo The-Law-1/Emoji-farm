@@ -8,8 +8,13 @@
 
       <!-- show the icon, and the price on the top line  -->
 
-      <div>
+      <div class="flex justify-between">
+
+        <div>
           {{ description }}
+        </div>
+
+        <img v-show="infoPanelExpanded" :src="buildingImage" class="w-16" />
       </div>
 
       <hr v-show="infoPanelExpanded"/>
@@ -18,7 +23,7 @@
           <!-- insert tiny flower image here -->
           {{ "Each unit produces " + building.currentPollinationPower }}
           <span class="inline-flex" v-show="infoPanelExpanded">
-              <img class=" w-4" :src="blossom"/>
+              <img class=" w-6" :src="blossom"/>
           </span>
           <span>per second</span>
       </div>
@@ -50,6 +55,10 @@ defineProps({
   },
   building: {
     type: Object as PropType<Building>,
+    required: true
+  },
+  buildingImage: {
+    type: String,
     required: true
   }
 });

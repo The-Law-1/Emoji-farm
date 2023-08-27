@@ -65,7 +65,7 @@ shopStore.$subscribe((mutation, state) => {
 
     // ! cookie clicker rounds their cookies!
 
-    flowers.value = Math.round(state.flowers);
+    flowers.value = Math.floor(state.flowers);
     // 0 at the end is the initial value of the accumulator
 
     // round to first decimal float
