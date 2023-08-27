@@ -10,16 +10,16 @@ export class Upgrade {
 
   cost: number = 0;
 
-  condition: Function = (building: Building) => true;
+  condition: { functionName: string, args: any[] } = {functionName: "", args:[]};
 
   owned: boolean = false;
 
   // colour tier
 
   // function that takes a building class and upgrades it
-  effect: Function = (building: Building) => void 0;
+  effect: { functionName: string, args: any[] } = {functionName: "", args:[]};
 
-  constructor(title: string, svgPath: string, description: string, cost: number, condition: Function, effect: Function) {
+  constructor(title: string, svgPath: string, description: string, cost: number, condition: { functionName: string, args: any[] }, effect: { functionName: string, args: any[] }) {
     this.title = title;
     this.svgPath = svgPath;
     this.description = description;

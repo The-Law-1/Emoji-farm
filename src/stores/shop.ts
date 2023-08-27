@@ -1,8 +1,8 @@
 import { GardenStats } from "@/classes/GardenStats";
 import { Upgrade } from "@/classes/Upgrade";
 import { Building } from "@/classes/building";
-import { FLOWBASEANNOTATION_TYPES } from "@babel/types";
 import { defineStore } from "pinia";
+import { useUtilitiesStore } from "./utils";
 
 export const useShopStore = defineStore("shop", {
     state: () => {
@@ -18,7 +18,9 @@ export const useShopStore = defineStore("shop", {
 
             upgrades: {} as {[key: string]: Upgrade[]},
 
-            accessibleUpgrades: [] as Upgrade[]
+            accessibleUpgrades: [] as Upgrade[],
+
+            utilities: useUtilitiesStore()
 
         }
     },
@@ -46,11 +48,18 @@ export const useShopStore = defineStore("shop", {
             this.checkUpgradesAccessible(building);
         },
         checkUpgradesAccessible(building: Building) {
+          // could be undefined while I am coding
+          if (!this.upgrades[building.name])
+            return;
+
           this.upgrades[building.name].forEach((upgrade: Upgrade) => {
+
+            console.log(upgrade);
             if (upgrade.owned)
               return;
 
-            if (upgrade.condition(building)) {
+            let canGetUpgrade = this.utilities.UpgradeFunctions[upgrade.condition.functionName](building, ...upgrade.condition.args);
+            if (canGetUpgrade) {
               this.accessibleUpgrades.push(upgrade);
             }
           });
@@ -64,7 +73,9 @@ export const useShopStore = defineStore("shop", {
 
           upgrade.owned = true;
 
-          upgrade.effect(this.buildings[upgrade.svgPath]);
+          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.svgPath], ...upgrade.effect.args);
+
+          // remove from accessible upgrades
         },
 
         initStore(gardenStats: GardenStats) {
