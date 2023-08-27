@@ -15,8 +15,6 @@ const Base64 = {
     // public method for encoding
     encode : function (input) {
 
-        console.log("Encoding with key: " + this._keyStr);
-
         var output = "";
         var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
         var i = 0;

@@ -7,6 +7,6 @@ export class GardenStats {
 
 
     buldings: {[name: string]: Building} = {
-        "bees": new Building("bees", 0.2, 0.2, 15, 15, 1.1)
+        "bee": new Building("bee", 0.2, 0.2, 15, 15, 1.1, "bee")
     };
 }

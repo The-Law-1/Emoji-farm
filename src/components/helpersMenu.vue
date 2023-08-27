@@ -5,16 +5,13 @@
     >
       <!-- Your menu content goes here -->
       <ul class=" text-2xl space-y-2">
-        <!-- BEES DIV -->
-        <!-- TODO each of these is a component that has its own side bar that opens on hover -->
-        
 
         <!-- v-for on Object.values(buildings) ? -->
-        <HelperItem v-if="buildings['bees'] !== undefined"
-            :building="(buildings['bees'] as Building)"
-            :can-buy-building="canBuyBuildings['bees']"
-            :description="'Helpful bees to pollinate your flowers'"
-            @click="() => buyBuilding('bees')">
+        <HelperItem v-if="buildings['bee'] !== undefined"
+            :building="(buildings['bee'] as Building)"
+            :can-buy-building="canBuyBuildings['bee'] !== undefined ? canBuyBuildings['bee'] : false"
+            :description="'A helpful bee to pollinate your flowers'"
+            @click="() => buyBuilding('bee')">
 
         </HelperItem>
 
@@ -22,7 +19,19 @@
         <li>Menu Item 2</li>
         <li>Menu Item 3</li>
       </ul>
-      
+
+      <div class="mt-10 overflow-y-scroll max-h-48 grid grid-cols-3">
+        <!-- <HelperUpgrade>
+        </HelperUpgrade>
+        <HelperUpgrade>
+        </HelperUpgrade>
+        <HelperUpgrade>
+        </HelperUpgrade>
+
+        <HelperUpgrade>
+        </HelperUpgrade> -->
+
+      </div>
     </div>
   </template>
   
@@ -33,6 +42,7 @@ import { useShopStore } from "@/stores/shop";
 import blossom from "@/assets/Plants/blossom.svg";
 import { Building } from '@/classes/building';
 import HelperItem from './HelperItem.vue';
+import HelperUpgrade from './HelperUpgrade.vue';
 
 let farmStore = useFarmStore();
 let shopStore = useShopStore();

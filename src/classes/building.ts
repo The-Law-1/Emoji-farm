@@ -11,7 +11,9 @@ export class Building {
     currentCost: number = 0;
     costMultiplier: number = 0; // high cost multiplier will make the game difficult, low cost multiplier will make the game easy
 
-    constructor(name: string, basePollinationPower: number, currentPollinationPower: number, baseCost: number, currentCost: number, costMultiplier: number) {
+    svgPath: string = "";
+
+    constructor(name: string, basePollinationPower: number, currentPollinationPower: number, baseCost: number, currentCost: number, costMultiplier: number, svgPath: string) {
         this.name = name;
 
         this.totalOwned = 0;
