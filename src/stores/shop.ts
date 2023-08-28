@@ -55,7 +55,7 @@ export const useShopStore = defineStore("shop", {
           this.upgrades[building.name].forEach((upgrade: Upgrade) => {
 
             console.log(upgrade);
-            if (upgrade.owned)
+            if (upgrade.owned || this.accessibleUpgrades.includes(upgrade))
               return;
 
             let canGetUpgrade = this.utilities.UpgradeFunctions[upgrade.condition.functionName](building, ...upgrade.condition.args);
@@ -69,13 +69,16 @@ export const useShopStore = defineStore("shop", {
           if (upgrade.cost > this.flowers)
             return;
 
+          console.log(this.utilities.UpgradeFunctions);
+          console.log(upgrade.effect.functionName);
+          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.svgPath], ...upgrade.effect.args);
+
           this.flowers -= upgrade.cost;
 
           upgrade.owned = true;
 
-          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.svgPath], ...upgrade.effect.args);
-
-          // remove from accessible upgrades
+          // * this filter is kind of inefficient
+          this.accessibleUpgrades = this.accessibleUpgrades.filter((u: Upgrade) => u.title !== upgrade.title);
         },
 
         initStore(gardenStats: GardenStats) {

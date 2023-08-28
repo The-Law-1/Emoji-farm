@@ -34,9 +34,9 @@
         </div>
 
         <UpgradeInfoPanel
-          v-if="currentUpgradeHovered != null"
+          v-if="currentUpgradeHovered !== null"
           :upgrade="currentUpgradeHovered"
-          :info-panel-expanded="currentUpgradeHovered != null">
+          :info-panel-expanded="true">
           
         </UpgradeInfoPanel>
       </div>

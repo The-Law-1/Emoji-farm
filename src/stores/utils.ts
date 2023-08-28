@@ -24,9 +24,9 @@ export const useUtilitiesStore = defineStore('utilities', () => {
     }
 
     const UpgradeFunctions = {
-      UnlockUpgradeOwnedRequirements: UnlockUpgrade,
-      UnlockUpgrade: UpgradeBuilding,
-    }
+      "UnlockUpgradeOwnedRequirements": UnlockUpgrade,
+      "UpgradeBuildingPollinationPercent": UpgradeBuilding,
+    } as {[key: string]: Function};
 
     
 

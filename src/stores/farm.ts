@@ -11,7 +11,6 @@ export const useFarmStore = defineStore("farm", {
             gardenStats: new GardenStats() as GardenStats,
             shopStore: useShopStore(),
 
-            // TODO you will likely have an interval for each building type, so a dictionary of them?
             beesInterval: null as unknown as NodeJS.Timeout,
 
             // currentInterval: null as unknown as NodeJS.Timeout,
