@@ -38,7 +38,7 @@
 
       <div :class="{ 'bg-gray-400 bg-opacity-50 rounded-md italic text-sm' : (infoPanelExpanded)}">
           <!-- insert tiny flower image here -->
-          {{ "Each unit produces " + building.currentPollinationPower.toFixed(2) }}
+          {{ "Each unit produces " + parseFloat(building.currentPollinationPower.toFixed(2)) }}
           <span class="inline-flex" v-show="infoPanelExpanded">
               <img class=" w-6" :src="blossom"/>
           </span>
@@ -63,6 +63,7 @@ import InfoPanel from './InfoPanel.vue';
 import { Building } from '@/classes/building';
 import blossom from "@/assets/Plants/blossom.svg";
 import { useUtilitiesStore } from '@/stores/utils';
+import { parse } from 'path';
 
 const utilsStore = useUtilitiesStore();
 

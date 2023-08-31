@@ -5,6 +5,7 @@
 
 <script setup lang="ts">
 import { useFarmStore } from '@/stores/farm';
+import { useShopStore } from '@/stores/shop';
 import { ref } from 'vue';
 
 
@@ -16,10 +17,11 @@ const props = defineProps({
 });
 
 const farmStore = useFarmStore();
+const shopStore = useShopStore();
+
 
 const clickedFlower = ref(() => {
-    let pollinationPower = farmStore.gardenStats.pollinationPower;
-    farmStore.pollinateFlower(pollinationPower);
+  shopStore.clickOnFlower();
 });
 
 

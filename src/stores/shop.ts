@@ -20,7 +20,9 @@ export const useShopStore = defineStore("shop", {
 
             accessibleUpgrades: [] as Upgrade[],
 
-            utilities: useUtilitiesStore()
+            utilities: useUtilitiesStore(),
+
+            currentClickPower: 1 as number
 
         }
     },
@@ -28,8 +30,11 @@ export const useShopStore = defineStore("shop", {
 
     },
     actions: {
+        clickOnFlower() {
+          this.reapFlower(this.currentClickPower);
+        },
         reapFlower(flowerYield: number) {
-            this.flowers += flowerYield;
+          this.flowers += flowerYield;
         },
         buyBuilding(buildingName: string) {
             // let building = this.buildings.find((b : [string, Building]) => b[0] === buildingName) as Building; // essentially the same if not better than a dictionary

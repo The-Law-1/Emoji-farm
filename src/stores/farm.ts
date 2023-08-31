@@ -20,12 +20,6 @@ export const useFarmStore = defineStore("farm", {
         }
     },
     actions: {
-        // * all number types are started as floating points
-        pollinateFlower(power: number) {
-
-            // * implement buffs etc... here!
-            this.shopStore.reapFlower(power);
-        },
         saveFarm() {
 
             this.gardenStats.totalFlowers = this.shopStore.flowers;
@@ -57,7 +51,6 @@ export const useFarmStore = defineStore("farm", {
 
                 this.gardenStats = JSON.parse(decoded) as GardenStats;
             }
-
             // init the shop store with gardenstats
             let shopStore = useShopStore();
 

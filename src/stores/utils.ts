@@ -23,9 +23,21 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       building.currentPollinationPower *= improvement;
     }
 
+    const UpgradeClick = (currentClickPower: number, improvement: number) => {
+      return currentClickPower * improvement;
+    };
+
+    const UpgradeBees = (building: Building, currentClickPower: number, improvement: number) => {
+      building.currentPollinationPower *= improvement;
+
+      currentClickPower *= improvement;
+    };
+
     const UpgradeFunctions = {
       "UnlockUpgradeOwnedRequirements": UnlockUpgrade,
       "UpgradeBuildingPollinationPercent": UpgradeBuilding,
+      "UpgradeClickPower": UpgradeClick,
+      "UpgradeClickAndBuildingPower": UpgradeBees
     } as {[key: string]: Function};
 
     
