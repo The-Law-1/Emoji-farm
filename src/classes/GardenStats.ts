@@ -15,7 +15,7 @@ export class GardenStats {
       "bee": [
           new Upgrade("Faster bees", "bee", "Bees are twice as efficient", 100,
                       { functionName: "UnlockUpgradeOwnedRequirements", args: [1]},
-                      { functionName: "UpgradeBuildingPollinationPercent", args: [2]},),
+                      { functionName: "UpgradeBuildingPollinationPercent", args: [2]}),
           new Upgrade("Pollen backpacks", "bee", "Bees are twice as efficient", 1000,
                     { functionName: "UnlockUpgradeOwnedRequirements", args: [1]},
                     { functionName: "UpgradeBuildingPollinationPercent", args: [2]}),

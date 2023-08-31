@@ -12,6 +12,8 @@ export const useUtilitiesStore = defineStore('utilities', () => {
 
     const base64 = Base64;
 
+    // TODO maybe send everything to functions? Is there a way to whittle it down? And still serialize? 
+
     const UnlockUpgrade = (building: Building, minimumOwned: number) => {
       if (building.totalOwned >= minimumOwned) {
         return true;
