@@ -52,6 +52,38 @@ export const useShopStore = defineStore("shop", {
 
             this.checkUpgradesAccessible(building);
         },
+        // sending args to be modified by reference
+        getUpgradeFunctionArgs(upgradeFunctionArgs: { functionName: string, args: any}) {
+        
+          // create an array of variables from upgrade.condition.args.values
+          let hardCodedArguments = Object.values(upgradeFunctionArgs.args);
+          // remove the stateVariables from the array
+          hardCodedArguments = hardCodedArguments.filter((arg: any) => typeof arg !== "object");
+
+          // create an array of state variables from upgrade.condition.args.stateVariables
+          let stateVariables = upgradeFunctionArgs.args.stateVariables;
+
+          let mappedStateVariables = [];
+          
+          upgradeFunctionArgs.args.stateVariables.forEach((variableName: string) => {
+            // if it's a number, wrap it in an object so we can pass it by reference
+            // * for now this only concerns clickPower, but if we move forward with achievements for ex...
+            console.log("Mapping " + variableName);
+            if (typeof this[variableName] === "number") {
+              console.log("Wrapping " + variableName + " in an object");
+              console.log("Value " + this[variableName]);
+
+              mappedStateVariables.push({ value: this[variableName], key: variableName });
+            } else {
+              mappedStateVariables.push(this[variableName]);
+            }
+          })
+
+          // map the state variables to their values
+          let args = [...hardCodedArguments, ...mappedStateVariables];
+
+          return {args, mappedStateVariables};
+        },
         checkUpgradesAccessible(building: Building) {
           // could be undefined while I am coding
           if (!this.upgrades[building.name])
@@ -60,12 +92,18 @@ export const useShopStore = defineStore("shop", {
           this.upgrades[building.name].forEach((upgrade: Upgrade) => {
 
             console.log(upgrade);
-            if (upgrade.owned || this.accessibleUpgrades.includes(upgrade))
+            if (upgrade.owned || upgrade.accessible)
               return;
 
-            let canGetUpgrade = this.utilities.UpgradeFunctions[upgrade.condition.functionName](building, ...upgrade.condition.args);
+            let {args, mappedStateVariables} = this.getUpgradeFunctionArgs(upgrade.condition);
+
+            let canGetUpgrade = this.utilities.UpgradeFunctions[upgrade.condition.functionName](building, ...args);
+
+            // the condition shouldn't change our mapped state variables, so we don't need to update our state with them
+
             if (canGetUpgrade) {
               this.accessibleUpgrades.push(upgrade);
+              upgrade.accessible = true;
             }
           });
         },
@@ -76,7 +114,22 @@ export const useShopStore = defineStore("shop", {
 
           console.log(this.utilities.UpgradeFunctions);
           console.log(upgrade.effect.functionName);
-          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.svgPath], ...upgrade.effect.args);
+
+
+          // get args, and mapped state variables from this function
+          let {args, mappedStateVariables} = this.getUpgradeFunctionArgs(upgrade.effect);
+
+          console.log("Buy upgrade with args:", args);
+
+          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.svgPath], ...args);
+
+          // loop over mappedStateVariables, and if it has a value key, set the value of our state variable to the value of the value key
+          // * this is some reference mumbo jumbo, but I think it works
+          mappedStateVariables.forEach((variable: any) => {
+            if (variable.value) {
+              this[variable.key] = variable.value;
+            }
+          });
 
           this.flowers -= upgrade.cost;
 

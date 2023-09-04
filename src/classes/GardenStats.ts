@@ -13,12 +13,12 @@ export class GardenStats {
     // the function name stuff is kind of sucky, but I need to serialize it somehow, a pity we don't really know what the arguments are...
     upgrades: {[name: string]: Upgrade[]} = {
       "bee": [
-          new Upgrade("Faster bees", "bee", "Bees are twice as efficient", 100,
-                      { functionName: "UnlockUpgradeOwnedRequirements", args: [1]},
-                      { functionName: "UpgradeBuildingPollinationPercent", args: [2]}),
+          new Upgrade("Faster bees", "bee", "Bees are twice as efficient", 1,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
+                      { functionName: "UpgradeClickAndBuildingPower", args: { improvement: 2, stateVariables: ["currentClickPower"] } }),
           new Upgrade("Pollen backpacks", "bee", "Bees are twice as efficient", 1000,
-                    { functionName: "UnlockUpgradeOwnedRequirements", args: [1]},
-                    { functionName: "UpgradeBuildingPollinationPercent", args: [2]}),
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
         ]
       }
 }

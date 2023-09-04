@@ -12,7 +12,7 @@ export const useUtilitiesStore = defineStore('utilities', () => {
 
     const base64 = Base64;
 
-    // TODO maybe send everything to functions? Is there a way to whittle it down? And still serialize? 
+    // * Take building, hard coded upgrade, then state variables
 
     const UnlockUpgrade = (building: Building, minimumOwned: number) => {
       if (building.totalOwned >= minimumOwned) {
@@ -25,20 +25,16 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       building.currentPollinationPower *= improvement;
     }
 
-    const UpgradeClick = (currentClickPower: number, improvement: number) => {
-      return currentClickPower * improvement;
-    };
-
-    const UpgradeBees = (building: Building, currentClickPower: number, improvement: number) => {
+    // we need to send the current click power as an object, so we can change its' value
+    const UpgradeBees = (building: Building, improvement: number, currentClickPower: any) => {
       building.currentPollinationPower *= improvement;
 
-      currentClickPower *= improvement;
+      currentClickPower.value *= improvement;
     };
 
     const UpgradeFunctions = {
       "UnlockUpgradeOwnedRequirements": UnlockUpgrade,
       "UpgradeBuildingPollinationPercent": UpgradeBuilding,
-      "UpgradeClickPower": UpgradeClick,
       "UpgradeClickAndBuildingPower": UpgradeBees
     } as {[key: string]: Function};
 
