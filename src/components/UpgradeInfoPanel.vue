@@ -25,11 +25,13 @@
       Upgrade
     </div>
     <hr/>
-    <div class="text-lg italic">
+    <div class="text-lg  font-medium">
       {{ upgrade.description }}
     </div>
 
-    <!--  show the image, the price -->
+    <div class="flex justify-end text-gray-500 italic text-sm">
+      {{ upgrade.subDescription }}
+    </div>
 
   </InfoPanel>
 

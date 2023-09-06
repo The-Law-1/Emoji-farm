@@ -1,38 +1,44 @@
 <template>
     <div class="relative">
         <div
-            class=" h-16 select-none outline outline-2 outline-white"
+            class=" h-fit select-none outline outline-2 outline-white"
             :class="canBuyBuilding ? 'bg-stone-600 cursor-pointer hover:bg-stone-500' : 'bg-stone-800 opacity-50 text-opacity-50'"
             @mouseenter="infoPanelExpanded = true"
             @mouseleave="infoPanelExpanded = false"
         >
           <div class="flex justify-between">
-            <!-- name and cost div -->
-            <div>
-              <div>
-                {{ building.name }}
-                <span class="">{{ building.totalOwned }}</span>
-              </div>
-    
-              <div
-                  class="flex items-center"
-                  :class="canBuyBuilding ? 'text-white' : 'text-red-600'"
-                  >
-                  <img class="w-8" :src="blossom" />
-                  <span>{{ building.currentCost }}</span>
-              </div>
-            </div>
 
-            <img class="w-16"
-               :src="svgDictionary[building.name]" />
+            <div class="flex">
+              <img class="w-16"
+                :src="svgDictionary[building.svgPath]" />
+              <!-- name and cost div -->
+              <div>
+                <div>
+                  {{ building.name }}
+                  <!-- <span class="">{{ building.totalOwned }}</span> -->
+                </div>
+      
+                <div
+                    class="flex items-center"
+                    :class="canBuyBuilding ? 'text-white' : 'text-red-600'"
+                    >
+                    <img class="w-8" :src="blossom" />
+                    <span>{{ building.currentCost }}</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="flex items-center text-4xl pr-1">{{ building.totalOwned }}</div>
           </div>
+         
+          
         </div>
 
         <HelperInfoPanel
           :info-panel-expanded="infoPanelExpanded.valueOf()"
-          :description="description"
+          :description="building.description"
           :building="building"
-          :building-image="svgDictionary[building.name]">
+          :building-image="svgDictionary[building.svgPath]">
 
         </HelperInfoPanel>        
     </div>
@@ -57,10 +63,6 @@ defineProps({
         type: Boolean,
         required: true
     },
-    description: {
-        type: String,
-        required: false
-    }
 });
 
 let infoPanelExpanded = ref(false as Boolean);

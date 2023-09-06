@@ -11,7 +11,7 @@
       <div
         class="flex justify-between items-center text-xl">
         <div class="flex items-center">
-          <img :src="buildingImage" class="w-16" />
+          <img :src="svgDictionary[building.svgPath]" class="w-16" />
           
           <div>
             {{ building.name }}
@@ -80,10 +80,6 @@ defineProps({
   },
   building: {
     type: Object as PropType<Building>,
-    required: true
-  },
-  buildingImage: {
-    type: String,
     required: true
   }
 });

@@ -2,6 +2,8 @@ export class Building {
 
     name: string = "";
 
+    description: string = "";
+
     totalOwned: number =  0;
 
     basePollinationPower: number = 0;
@@ -13,8 +15,12 @@ export class Building {
 
     svgPath: string = "";
 
-    constructor(name: string, basePollinationPower: number, currentPollinationPower: number, baseCost: number, currentCost: number, costMultiplier: number, svgPath: string) {
+    constructor(name: string, description: string, basePollinationPower: number, currentPollinationPower: number, baseCost: number, currentCost: number, costMultiplier: number, svgPath: string) {
         this.name = name;
+
+        this.svgPath = svgPath;
+
+        this.description = description;
 
         this.totalOwned = 0;
 

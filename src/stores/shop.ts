@@ -121,7 +121,7 @@ export const useShopStore = defineStore("shop", {
 
           console.log("Buy upgrade with args:", args);
 
-          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.svgPath], ...args);
+          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.buildingName], ...args);
 
           // loop over mappedStateVariables, and if it has a value key, set the value of our state variable to the value of the value key
           // * this is some reference mumbo jumbo, but I think it works
@@ -141,7 +141,7 @@ export const useShopStore = defineStore("shop", {
 
         initStore(gardenStats: GardenStats) {
             this.flowers = gardenStats.totalFlowers;
-            console.log("Init store with:" + this.flowers);
+            // console.log("Init store with:" + this.flowers);
 
             this.upgrades = gardenStats.upgrades;
             

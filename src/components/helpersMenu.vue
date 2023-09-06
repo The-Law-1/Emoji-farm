@@ -1,19 +1,24 @@
 <template>
     <div
-      class="fixed h-full w-64 bg-earth text-white p-4 transition-transform duration-300 transform"
+      class="fixed h-full w-72 bg-earth text-white p-4 transition-transform duration-300 transform"
       :class="{ '-translate-x-full': !expanded }"
     >
       <!-- Your menu content goes here -->
       <ul class=" text-2xl space-y-2">
 
         <!-- v-for on Object.values(buildings) ? -->
-        <HelperItem v-if="buildings['bee'] !== undefined"
+        <HelperItem v-for="(building, i) in Object.values(buildings)"
+          :key="'buildings-' + i"
+          :building="building"
+          :can-buy-building="canBuyBuildings[building.name]"
+          @click="() => buyBuilding(building.name)">
+        </HelperItem>
+        <!-- <HelperItem v-if="buildings['bee'] !== undefined"
             :building="(buildings['bee'] as Building)"
             :can-buy-building="canBuyBuildings['bee'] !== undefined ? canBuyBuildings['bee'] : false"
-            :description="'A helpful bee to pollinate your flowers'"
             @click="() => buyBuilding('bee')">
 
-        </HelperItem>
+        </HelperItem> -->
 
         <li>Menu Item 1</li>
         <li>Menu Item 2</li>
