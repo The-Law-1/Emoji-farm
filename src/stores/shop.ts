@@ -12,6 +12,8 @@ export const useShopStore = defineStore("shop", {
 
             buildings: {} as {[key: string]: Building}, // * dictionary of buildings
 
+            totalBuildings: 0 as number,
+
             // beeIntervals: [] as unknown as NodeJS.Timeout[],
 
             buildingsInterval: null as unknown as NodeJS.Timeout,
@@ -164,6 +166,8 @@ export const useShopStore = defineStore("shop", {
             Object.values(this.buildings).forEach((building: Building) => {
               this.checkUpgradesAccessible(building);
             });
+
+            this.totalBuildings = Object.keys(this.buildings).length;
 
             this.buildingsInterval = setInterval(() => {
                 // loop through your buildings dictionary, and calculate how many you increase by

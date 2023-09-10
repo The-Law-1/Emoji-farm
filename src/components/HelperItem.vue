@@ -10,11 +10,12 @@
 
             <div class="flex">
               <img class="w-16"
+                :class="accessible ? 'brightness-100' : 'brightness-0'"
                 :src="svgDictionary[building.svgPath]" />
               <!-- name and cost div -->
               <div>
                 <div>
-                  {{ building.name }}
+                  {{ accessible ? building.name : "???" }}
                   <!-- <span class="">{{ building.totalOwned }}</span> -->
                 </div>
       
@@ -23,7 +24,7 @@
                     :class="canBuyBuilding ? 'text-white' : 'text-red-600'"
                     >
                     <img class="w-8" :src="blossom" />
-                    <span>{{ building.currentCost }}</span>
+                    <span>{{ accessible ? building.currentCost : "???" }}</span>
                 </div>
               </div>
 
@@ -35,7 +36,7 @@
         </div>
 
         <HelperInfoPanel
-          :info-panel-expanded="infoPanelExpanded.valueOf()"
+          :info-panel-expanded="accessible && infoPanelExpanded.valueOf()"
           :description="building.description"
           :building="building"
           :building-image="svgDictionary[building.svgPath]">
@@ -63,6 +64,10 @@ defineProps({
         type: Boolean,
         required: true
     },
+    accessible: {
+        type: Boolean,
+        required: true
+    }
 });
 
 let infoPanelExpanded = ref(false as Boolean);

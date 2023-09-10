@@ -12,7 +12,7 @@
           Upgrades
         </div>
         <div class=" flex flex-wrap">
-          <HelperUpgrade v-for="upgrade in accessibleUpgrades"
+          <HelperUpgrade v-for="(upgrade, idx) in accessibleUpgrades"
             :upgrade="upgrade"
             :key="upgrade.title"
             @mouseover="currentUpgradeHovered = upgrade"
@@ -34,13 +34,17 @@
 
       <!-- Your menu content goes here -->
       <ul class=" text-2xl space-y-2">
-        <!-- v-for on Object.values(buildings) ? -->
+
+        <!-- TODO canBuyBuildings is undefined sometimes? Find out why  -->
         <HelperItem v-for="(building, i) in Object.values(buildings)"
           :key="'buildings-' + i"
+          v-show="buildingUnlocked(i)"
+          :accessible="buildingAccessible(i)"
           :building="building"
-          :can-buy-building="canBuyBuildings[building.name]"
+          :can-buy-building="canBuyBuildings[building.name] !== undefined && canBuyBuildings[building.name]"
           @click="() => buyBuilding(building.name)">
         </HelperItem>
+
       </ul>
 
 
@@ -78,10 +82,40 @@ shopStore.$subscribe((mutation, state) => {
 
     // this is perhaps overkill?
     Object.entries(buildings.value).forEach(([name, building] : [string, Building]) => {
-        canBuyBuildings.value[name] = state.flowers >= building.currentCost;
+      canBuyBuildings.value[name] = state.flowers >= building.currentCost;
     });
 
     accessibleUpgrades.value = state.accessibleUpgrades;
+});
+
+let buildingAccessible = ref((idx) => {
+
+  let buildingsArray = Object.values(buildings.value);
+
+  if (idx === 0) {
+    return true;
+  }
+
+  if (buildingsArray[idx - 1].totalOwned > 0) {
+    return true;
+  }
+
+  return false;
+});
+
+let buildingUnlocked = ref((idx) => {
+
+  if (idx < 2) {
+    return true;
+  }
+
+  let previousBuilding = Object.values(buildings.value)[idx - 2];
+
+  if (previousBuilding.totalOwned > 0) {
+    return true;
+  }
+
+  return false;
 });
 
 let buyBuilding = ref((name: string) => {

@@ -9,6 +9,8 @@ export class GardenStats {
     buildings: {[name: string]: Building} = {
       "bee": new Building("bee", "A helpful bee to pollinate your flowers", 0.2, 0.2, 15, 15, 1.1, "bee"),
       "Dew collector": new Building("Dew collector", "Collect morning dew to provide a natural source of hydration for your flowers", 0.5, 0.5, 100, 100, 1.1, "droplet"),
+      "Ladybug": new Building("Ladybug Nursery", "Nurture ladybugs, natural predators of garden pests, to keep your garden pest-free.", 2, 2, 50, 50, 1.15, "ladyBug"),
+
     };
 
     // the function name stuff is kind of sucky, but I need to serialize it somehow, a pity we don't really know what the arguments are...
