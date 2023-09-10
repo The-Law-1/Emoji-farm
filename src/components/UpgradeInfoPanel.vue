@@ -1,7 +1,7 @@
 <template>
 
   <InfoPanel
-    class="space-y-1 p-2"
+    class=" p-2"
     :info-panel-expanded="infoPanelExpanded">
     <div class="flex justify-between items-center">
       <div class="flex items-center">

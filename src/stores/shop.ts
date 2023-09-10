@@ -102,8 +102,20 @@ export const useShopStore = defineStore("shop", {
             // the condition shouldn't change our mapped state variables, so we don't need to update our state with them
 
             if (canGetUpgrade) {
-              this.accessibleUpgrades.push(upgrade);
-              upgrade.accessible = true;
+
+              // order the upgrades by cost
+              this.accessibleUpgrades.forEach((u: Upgrade, index: number) => {
+                if (upgrade.cost < u.cost) {
+                  this.accessibleUpgrades.splice(index, 0, upgrade);
+                  upgrade.accessible = true;
+                  return;
+                }
+              });
+              // if the upgrade still isn't accessible, push it to the end
+              if (!upgrade.accessible) {
+                this.accessibleUpgrades.push(upgrade);
+                upgrade.accessible = true;
+              }
             }
           });
         },

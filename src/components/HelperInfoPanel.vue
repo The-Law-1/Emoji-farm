@@ -1,6 +1,6 @@
 <template>
 
-  <InfoPanel :info-panel-expanded="infoPanelExpanded" >
+  <InfoPanel :info-panel-expanded="infoPanelExpanded" class="ml-4">
 
     <!-- DIV containing all the text and handles text animation a bit delayed -->
     <div class="text-base text-white p-2"
