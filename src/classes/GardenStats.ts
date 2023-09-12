@@ -20,7 +20,7 @@ export class GardenStats {
       "Fairy Fountain": new Building("Fairy Fountain", "Install enchanting fountains that provide a water source for both your garden and local fairies.", 8000, 8000, 20000000, 20000000, 1.15, "fountain"),
     };
 
-    // the function name stuff is kind of sucky, but I need to serialize it somehow, a pity we don't really know what the arguments are...
+    // * the names must correspond to building.name
     upgrades: {[name: string]: Upgrade[]} = {
       "bee": [
         new Upgrade("Faster bees", "bee", "bee", "Bees and cursor are twice as efficient", "Bzzzzzz",  100,
@@ -79,10 +79,31 @@ export class GardenStats {
                     { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
                     { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
 
-        // last upgrade is a reference to the spot
         new Upgrade("Interdimensional spots", "Ladybug", "ladyBug", "Ladybug Nurseries are twice as efficient", "Not liable for sudden appearance of supervillains", 500000000000,
                     { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 200, stateVariables: [] } },
                     { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
       ],
+      "Worm hotel": [
+        new Upgrade("Worm whisperer", "Worm Hotel", "worm", "Worm Hotels are twice as efficient", "Worms have the best gossip.", 120000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+        new Upgrade("Tunnel museum", "Worm Hotel", "worm", "Worm Hotels are twice as efficient", "They specialize in abstract worm paintings.", 600000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 5, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+        new Upgrade("Underground club", "Worm Hotel", "worm", "Worm Hotels are twice as efficient", "Yes, they can in fact do the worm dance.", 6000000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 25, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+        new Upgrade("Swimming pool", "Worm Hotel", "worm", "Worm Hotels are twice as efficient", "A moist worm is a happy worm.", 6000000000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+                    
+        new Upgrade("Wormhole generator", "Worm Hotel", "worm", "Worm Hotels are twice as efficient", "Side effects include losing your keys and TV remotes.", 6000000000000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 200, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+        ]
       }
 }
