@@ -104,6 +104,28 @@ export class GardenStats {
                     { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 200, stateVariables: [] } },
                     { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
 
-        ]
+        ],
+        "Rain Wizard": [
+
+          new Upgrade("Pointier hats", "Rain Wizard", "wizard", "Rain Wizards are twice as efficient", "The pointier the better.", 1300000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Umbrella wands", "Rain Wizard", "wizard", "Rain Wizards are twice as efficient", "Just so they can forget it when it rains.", 6500000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 5, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+          
+          new Upgrade("Precipitation potions", "Rain Wizard", "wizard", "Rain Wizards are twice as efficient", "(They're mostly water).", 65000000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 25, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("School of witchcraft and wizardry", "Rain Wizard", "wizard", "Rain Wizards are twice as efficient", "Dual-degree in transfiguration!", 6500000000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 50, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Air-obics", "Rain Wizard", "wizard", "Rain Wizards are twice as efficient", "'Why don't we move the clouds closer?'", 650000000000,
+                    { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
+                    { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+          ]
       }
 }
