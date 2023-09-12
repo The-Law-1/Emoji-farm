@@ -2,6 +2,11 @@ import blossom from "@/assets/Plants/blossom.svg";
 import bee from "@/assets/Helpers/bee.svg";
 import droplet from "@/assets/Helpers/droplet.svg";
 import ladyBug from "@/assets/Helpers/ladybug.svg";
+import worm from "@/assets/Helpers/worm.svg";
+import fountain from "@/assets/Helpers/fountain.svg";
+import rain from "@/assets/Helpers/rain.svg";
+import treeLife from "@/assets/Helpers/treelife.svg";
+import wizard from "@/assets/Helpers/wizard.svg";
 import { defineStore } from 'pinia';
 import { Base64 } from "./utils/base64";
 import { Building } from "@/classes/building";
@@ -11,7 +16,12 @@ export const useUtilitiesStore = defineStore('utilities', () => {
         blossom,
         bee,
         droplet,
-        ladyBug
+        ladyBug,
+        worm,
+        fountain,
+        rain,
+        treeLife,
+        wizard
     };
 
     const base64 = Base64;
