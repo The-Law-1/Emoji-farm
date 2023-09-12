@@ -46,10 +46,26 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       currentClickPower.value *= improvement;
     };
 
+    // * I have dubbed "CollectionBonus" the bonus that applies based on your amount of other buildings
+    const ClickAndBuildingCollectionBonus = (building: Building, improvement: number, currentClickPower: any, otherBuildings: Building[]) => {
+      let totalOtherBuildings = 0;
+
+      for (let otherBuilding of otherBuildings) {
+        if (otherBuilding.name === building.name) 
+          continue;
+        totalOtherBuildings += otherBuilding.totalOwned;
+      }
+
+      currentClickPower.value += improvement * totalOtherBuildings;
+
+      building.currentPollinationPower += improvement * totalOtherBuildings;
+    }
+
     const UpgradeFunctions = {
       "UnlockUpgradeOwnedRequirements": UnlockUpgrade,
       "UpgradeBuildingPollinationPercent": UpgradeBuilding,
-      "UpgradeClickAndBuildingPower": UpgradeBees
+      "UpgradeClickAndBuildingPower": UpgradeBees,
+      "ClickAndBuildingCollectionBonus": ClickAndBuildingCollectionBonus
     } as {[key: string]: Function};
 
     
