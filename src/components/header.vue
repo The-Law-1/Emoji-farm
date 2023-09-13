@@ -51,7 +51,7 @@ const shopStore = useShopStore();
 
 let flowersPerSecond = ref(0 as number);
 
-let flowers = ref(shopStore.flowers as bigint);
+let flowers = ref(shopStore.flowers);
 
 let shopExpanded = ref(false);
 

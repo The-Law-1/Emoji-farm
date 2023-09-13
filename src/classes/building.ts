@@ -10,7 +10,7 @@ export class Building {
     currentPollinationPower: number = 0; // will be upgraded with upgrades
 
     baseCost: number = 0;
-    currentCost: bigint = BigInt(0);
+    currentCost: number = 0;
     costMultiplier: number = 0; // high cost multiplier will make the game difficult, low cost multiplier will make the game easy
 
     svgPath: string = "";
@@ -28,7 +28,7 @@ export class Building {
         this.currentPollinationPower = currentPollinationPower;
 
         this.baseCost = baseCost;
-        this.currentCost = BigInt(currentCost);
+        this.currentCost = currentCost;
 
         this.costMultiplier = costMultiplier;
     }

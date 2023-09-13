@@ -8,7 +8,7 @@ export const useShopStore = defineStore("shop", {
     state: () => {
         return {
 
-            flowers: BigInt(0) as bigint,
+            flowers: 0,
 
             buildings: {} as {[key: string]: Building}, // * dictionary of buildings
 
@@ -26,8 +26,6 @@ export const useShopStore = defineStore("shop", {
 
             currentClickPower: 1 as number,
 
-            decimalFlowers: 0 as number
-
         }
     },
     getters: {
@@ -40,23 +38,13 @@ export const useShopStore = defineStore("shop", {
         // hoping no entity has the power to reap more than 2^53 flowers
         reapFlower(flowerYield: number) {
 
-          // what do I do if the number is less than 1?
-          if (flowerYield < 1) {
-            this.decimalFlowers += flowerYield;
-
-            if (this.decimalFlowers >= 1) {
-              this.flowers += BigInt(Math.floor(this.decimalFlowers));
-              this.decimalFlowers -= Math.floor(this.decimalFlowers);
-            }
-          } else {
-            this.flowers += BigInt(flowerYield);
-          }
+          this.flowers += flowerYield;
         },
         buyBuilding(buildingName: string) {
             // let building = this.buildings.find((b : [string, Building]) => b[0] === buildingName) as Building; // essentially the same if not better than a dictionary
             let building = this.buildings[buildingName] as Building;
 
-            if (building.currentCost > (this.flowers as bigint)) {
+            if (building.currentCost > this.flowers) {
                 return;
             }
 
@@ -64,7 +52,7 @@ export const useShopStore = defineStore("shop", {
 
             building.totalOwned += 1;
 
-            building.currentCost = BigInt(Math.round(building.baseCost * Math.pow(building.costMultiplier, building.totalOwned)));
+            building.currentCost = Math.round(building.baseCost * Math.pow(building.costMultiplier, building.totalOwned));
 
             this.checkUpgradesAccessible(building);
         },
@@ -107,7 +95,6 @@ export const useShopStore = defineStore("shop", {
 
           this.upgrades[building.name].forEach((upgrade: Upgrade) => {
 
-            console.log(upgrade);
             if (upgrade.owned || upgrade.accessible)
               return;
 
@@ -137,7 +124,7 @@ export const useShopStore = defineStore("shop", {
         },
 
         buyUpgrade(upgrade: Upgrade) {
-          if (upgrade.cost > (this.flowers as bigint))
+          if (upgrade.cost > this.flowers)
             return;
 
           console.log(this.utilities.UpgradeFunctions);
@@ -159,7 +146,7 @@ export const useShopStore = defineStore("shop", {
             }
           });
 
-          (this.flowers as bigint) -= upgrade.cost;
+          this.flowers -= upgrade.cost;
 
           upgrade.owned = true;
 
@@ -168,7 +155,7 @@ export const useShopStore = defineStore("shop", {
         },
 
         initStore(gardenStats: GardenStats) {
-            (this.flowers as bigint) = gardenStats.totalFlowers;
+            this.flowers = gardenStats.totalFlowers;
             // console.log("Init store with:" + this.flowers);
 
             this.upgrades = gardenStats.upgrades;
