@@ -126,6 +126,48 @@ export class GardenStats {
           new Upgrade("Air-obics", "Rain Wizard", "wizard", "Rain Wizards are twice as efficient", "'Why don't we move the clouds closer?'", 650000000000,
                     { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
                     { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
-          ]
+          ],
+        "Tree of Life": [
+          new Upgrade("Branch extensions", "Tree of Life", "treeLife", "Trees of life are twice as efficient", "A lot more pleasant than branch downsizing for sure.", 14000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Tree wisdom council", "Tree of Life", "treeLife", "Trees of life are twice as efficient", "Guaranteed to reduce analysis paralysis.", 70000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 5, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Photosynthesis supercharger", "Tree of Life", "treeLife", "Trees of life are twice as efficient", "Your tree will now photosynthesise on moonless nights.", 700000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 25, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Kara-oak-e stage", "Tree of Life", "treeLife", "Trees of life are twice as efficient", "Treemendously fun.", 70000000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 50, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Demon fruit", "Tree of Life", "treeLife", "Trees of life are twice as efficient", "They are powerful but come at a terrible price, we don't care though.", 7000000000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+        ],
+        "Fairy Fountain": [
+          new Upgrade("Fountain of youth", "Fairy Fountain", "fountain", "Fairy Fountains are twice as efficient", "Easy to find, and definitely curse-free.", 200000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Eccentric sculptures", "Fairy Fountain", "fountain", "Fairy Fountains are twice as efficient", "Sparks spirited conversation among neighbours.", 1000000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 5, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Limpid clarity", "Fairy Fountain", "fountain", "Fairy Fountains are twice as efficient", "You can see your face in it!", 10000000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 25, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Wishing well", "Fairy Fountain", "fountain", "Fairy Fountains are twice as efficient", "I wish... for a THOUSAND wishes.", 1000000000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 50, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+
+          new Upgrade("Mirror of desire", "Fairy Fountain", "fountain", "Fairy Fountains are twice as efficient", "I show not your face but your heart's desire.", 100000000000000,
+                      { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
+                      { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
+        ]
       }
 }
