@@ -73,6 +73,6 @@ export const useUtilitiesStore = defineStore('utilities', () => {
     return {
       svgDictionary,
       base64,
-      UpgradeFunctions
+      UpgradeFunctions,
     }
 });

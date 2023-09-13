@@ -51,7 +51,7 @@ const shopStore = useShopStore();
 
 let flowersPerSecond = ref(0 as number);
 
-let flowers = ref(shopStore.flowers);
+let flowers = ref(shopStore.flowers as bigint);
 
 let shopExpanded = ref(false);
 
@@ -65,7 +65,7 @@ shopStore.$subscribe((mutation, state) => {
 
     // ! cookie clicker rounds their cookies!
 
-    flowers.value = Math.floor(state.flowers);
+    flowers.value = state.flowers;
     // 0 at the end is the initial value of the accumulator
 
     // round to first decimal float

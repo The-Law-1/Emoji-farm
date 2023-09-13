@@ -8,7 +8,7 @@ export const useShopStore = defineStore("shop", {
     state: () => {
         return {
 
-            flowers: 0 as number,
+            flowers: BigInt(0) as bigint,
 
             buildings: {} as {[key: string]: Building}, // * dictionary of buildings
 
@@ -24,7 +24,9 @@ export const useShopStore = defineStore("shop", {
 
             utilities: useUtilitiesStore(),
 
-            currentClickPower: 1 as number
+            currentClickPower: 1 as number,
+
+            decimalFlowers: 0 as number
 
         }
     },
@@ -35,14 +37,26 @@ export const useShopStore = defineStore("shop", {
         clickOnFlower() {
           this.reapFlower(this.currentClickPower);
         },
+        // hoping no entity has the power to reap more than 2^53 flowers
         reapFlower(flowerYield: number) {
-          this.flowers += flowerYield;
+
+          // what do I do if the number is less than 1?
+          if (flowerYield < 1) {
+            this.decimalFlowers += flowerYield;
+
+            if (this.decimalFlowers >= 1) {
+              this.flowers += BigInt(Math.floor(this.decimalFlowers));
+              this.decimalFlowers -= Math.floor(this.decimalFlowers);
+            }
+          } else {
+            this.flowers += BigInt(flowerYield);
+          }
         },
         buyBuilding(buildingName: string) {
             // let building = this.buildings.find((b : [string, Building]) => b[0] === buildingName) as Building; // essentially the same if not better than a dictionary
-            let building = this.buildings[buildingName];
+            let building = this.buildings[buildingName] as Building;
 
-            if (building.currentCost > this.flowers) {
+            if (building.currentCost > (this.flowers as bigint)) {
                 return;
             }
 
@@ -50,7 +64,7 @@ export const useShopStore = defineStore("shop", {
 
             building.totalOwned += 1;
 
-            building.currentCost = Math.round(building.baseCost * Math.pow(building.costMultiplier, building.totalOwned));
+            building.currentCost = BigInt(Math.round(building.baseCost * Math.pow(building.costMultiplier, building.totalOwned)));
 
             this.checkUpgradesAccessible(building);
         },
@@ -123,7 +137,7 @@ export const useShopStore = defineStore("shop", {
         },
 
         buyUpgrade(upgrade: Upgrade) {
-          if (upgrade.cost > this.flowers)
+          if (upgrade.cost > (this.flowers as bigint))
             return;
 
           console.log(this.utilities.UpgradeFunctions);
@@ -145,16 +159,16 @@ export const useShopStore = defineStore("shop", {
             }
           });
 
-          this.flowers -= upgrade.cost;
+          (this.flowers as bigint) -= upgrade.cost;
 
           upgrade.owned = true;
 
-          // * this filter is kind of inefficient
+          // TODO this filter is kind of inefficient
           this.accessibleUpgrades = this.accessibleUpgrades.filter((u: Upgrade) => u.title !== upgrade.title);
         },
 
         initStore(gardenStats: GardenStats) {
-            this.flowers = gardenStats.totalFlowers;
+            (this.flowers as bigint) = gardenStats.totalFlowers;
             // console.log("Init store with:" + this.flowers);
 
             this.upgrades = gardenStats.upgrades;

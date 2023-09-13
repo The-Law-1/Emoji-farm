@@ -82,7 +82,7 @@ shopStore.$subscribe((mutation, state) => {
 
     // this is perhaps overkill?
     Object.entries(buildings.value).forEach(([name, building] : [string, Building]) => {
-      canBuyBuildings.value[name] = state.flowers >= building.currentCost;
+      canBuyBuildings.value[name] = (state.flowers as bigint) >= building.currentCost;
     });
 
     accessibleUpgrades.value = state.accessibleUpgrades;
