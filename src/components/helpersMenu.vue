@@ -15,6 +15,7 @@
           <HelperUpgrade v-for="(upgrade, idx) in accessibleUpgrades"
             :upgrade="upgrade"
             :key="upgrade.title"
+            @bought-upgrade="() => currentUpgradeHovered = null"
             @mouseover="currentUpgradeHovered = upgrade"
             @mouseleave="currentUpgradeHovered = null">
           </HelperUpgrade>
@@ -119,8 +120,6 @@ let buildingUnlocked = ref((idx) => {
 });
 
 let buyBuilding = ref((name: string, i: number) => {
-    console.log("Buying building: " + name + " at index: " + i);
-    console.log("Building accessible: " + buildingAccessible.value(i))
     if (buildingAccessible.value(i)) {
       shopStore.buyBuilding(name);
     }

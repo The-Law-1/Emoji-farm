@@ -26,6 +26,12 @@ export const useUtilitiesStore = defineStore('utilities', () => {
 
     const base64 = Base64;
 
+    const numberWithCommas = (x: number) => {
+      var parts = x.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
+    }
+
     const ShowBigNumber = (number: number) => {
       const bigNumbers = {
         1e+48: "Quindecillion",
@@ -46,10 +52,15 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       }
 
       if (number < 1e+6) {
-        // TODO maybe with commas to show the thousands?
-        return number.toString();
+        // * these regexes didn't work haha localestring does though
+        //https://stackoverflow.com/questions/2901102/how-to-format-a-number-with-commas-as-thousands-separators
+
+        number = Math.floor(number);
+
+        return number.toLocaleString();
+        // return numberWithCommas(number);
+        // return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
-        
 
       // ordered from big to small so we can return the first one that fits
       for (const [key, value] of Object.entries(bigNumbers)) {
@@ -84,15 +95,17 @@ export const useUtilitiesStore = defineStore('utilities', () => {
     const ClickAndBuildingCollectionBonus = (building: Building, improvement: number, currentClickPower: any, otherBuildings: Building[]) => {
       let totalOtherBuildings = 0;
 
-      for (let otherBuilding of otherBuildings) {
-        if (otherBuilding.name === building.name) 
+      // iterate through dictionary
+      for (const [key, otherBuilding] of Object.entries(otherBuildings)) {
+        if (key === building.name) 
           continue;
         totalOtherBuildings += otherBuilding.totalOwned;
       }
 
-      currentClickPower.value += improvement * totalOtherBuildings;
+      // console.warn("Improving by:", improvement * totalOtherBuildings);
+      currentClickPower.value *= improvement * totalOtherBuildings;
 
-      building.currentPollinationPower += improvement * totalOtherBuildings;
+      building.currentPollinationPower *= improvement * totalOtherBuildings;
     }
 
     const UpgradeFunctions = {

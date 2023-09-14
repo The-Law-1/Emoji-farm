@@ -67,7 +67,7 @@ shopStore.$subscribe((mutation, state) => {
 
     // ! cookie clicker rounds their cookies!
 
-    if (state.flowers >= 1e+6) {
+    if (state.flowers >= 1e+3) {
       flowers.value = state.displayFlowers;
     } else {
       flowers.value = Math.floor(state.flowers) as number;

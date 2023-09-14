@@ -42,8 +42,7 @@ export const useShopStore = defineStore("shop", {
 
           this.flowers += flowerYield;
 
-          // check if flowers is bigger than 1e+6
-          if (this.flowers >= 1e+6) {
+          if (this.flowers >= 1e+3) {
             this.displayFlowers = this.utilities.ShowBigNumber(this.flowers);
           }
         },
@@ -81,10 +80,10 @@ export const useShopStore = defineStore("shop", {
           upgradeFunctionArgs.args.stateVariables.forEach((variableName: string) => {
             // if it's a number, wrap it in an object so we can pass it by reference
             // * for now this only concerns clickPower, but if we move forward with achievements for ex...
-            console.log("Mapping " + variableName);
+            // console.log("Mapping " + variableName);
             if (typeof this[variableName] === "number") {
-              console.log("Wrapping " + variableName + " in an object");
-              console.log("Value " + this[variableName]);
+              // console.log("Wrapping " + variableName + " in an object");
+              // console.log("Value " + this[variableName]);
 
               mappedStateVariables.push({ value: this[variableName], key: variableName });
             } else {
@@ -116,12 +115,17 @@ export const useShopStore = defineStore("shop", {
             if (canGetUpgrade) {
 
               // order the upgrades by cost
-              this.accessibleUpgrades.forEach((u: Upgrade, index: number) => {
+              this.accessibleUpgrades.every((u: Upgrade, index: number) => {
                 if (upgrade.cost < u.cost) {
+                  console.log("Adding upgrade ", upgrade.title, " at index ", index);
                   this.accessibleUpgrades.splice(index, 0, upgrade);
                   upgrade.accessible = true;
-                  return;
+
+                  // https://masteringjs.io/tutorials/fundamentals/foreach-break
+                  // * with accessibleUpgrades.every, returning false breaks the loop
+                  return false;
                 }
+                return true;
               });
               // if the upgrade still isn't accessible, push it to the end
               if (!upgrade.accessible) {
@@ -134,10 +138,10 @@ export const useShopStore = defineStore("shop", {
 
         buyUpgrade(upgrade: Upgrade) {
           if (upgrade.cost > this.flowers)
-            return;
+            return false;
 
-          console.log(this.utilities.UpgradeFunctions);
-          console.log(upgrade.effect.functionName);
+          // console.log(this.utilities.UpgradeFunctions);
+          // console.log(upgrade.effect.functionName);
 
 
           // get args, and mapped state variables from this function
@@ -162,6 +166,8 @@ export const useShopStore = defineStore("shop", {
 
           // TODO this filter is kind of inefficient
           this.accessibleUpgrades = this.accessibleUpgrades.filter((u: Upgrade) => u.title !== upgrade.title);
+
+          return true;
         },
 
         initStore(gardenStats: GardenStats) {

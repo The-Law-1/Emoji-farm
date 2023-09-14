@@ -25,6 +25,10 @@ let shopStore = useShopStore();
 
 let svgDictionary = ref(utilsStore.svgDictionary as {[key: string] : string});
 
+const emit = defineEmits<{
+  (e: 'boughtUpgrade'): void
+}>();
+
 const props = defineProps({
   upgrade: {
     type: Object as PropType<Upgrade>,
@@ -35,7 +39,13 @@ const props = defineProps({
 const buyUpgrade = ref(() => {
   console.log('buy upgrade');
 
-  shopStore.buyUpgrade(props.upgrade);
+  // trigger event to tell info panel to go away
+
+  let bought = shopStore.buyUpgrade(props.upgrade);
+
+  if (bought) {
+    emit('boughtUpgrade');
+  }
 });
 
 const canBuyUpgrade = computed(() => {
