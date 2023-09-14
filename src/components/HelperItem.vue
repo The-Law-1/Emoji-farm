@@ -2,7 +2,7 @@
     <div class="relative">
         <div
             class=" h-fit select-none outline outline-2 outline-white"
-            :class="canBuyBuilding ? 'bg-stone-600 cursor-pointer hover:bg-stone-500' : 'bg-stone-800 opacity-50 text-opacity-50'"
+            :class="(canBuyBuilding && accessible) ? 'bg-stone-600 cursor-pointer hover:bg-stone-500' : 'bg-stone-800 opacity-50 text-opacity-50'"
             @mouseenter="infoPanelExpanded = true"
             @mouseleave="infoPanelExpanded = false"
         >
@@ -21,10 +21,10 @@
       
                 <div
                     class="flex items-center"
-                    :class="canBuyBuilding ? 'text-white' : 'text-red-600'"
+                    :class="(canBuyBuilding && accessible) ? 'text-white' : 'text-red-600'"
                     >
                     <img class="w-8" :src="blossom" />
-                    <span>{{ accessible ? building.currentCost : "???" }}</span>
+                    <span>{{ accessible ? displayCost : "???" }}</span>
                 </div>
               </div>
 
@@ -47,7 +47,7 @@
   
 <script setup lang="ts">
 import { Building } from '@/classes/building';
-import { PropType, ref } from 'vue';
+import { PropType, computed, ref } from 'vue';
 import blossom from "@/assets/Plants/blossom.svg";
 import HelperInfoPanel from './HelperInfoPanel.vue';
 import { useUtilitiesStore } from '@/stores/utils';
@@ -55,7 +55,7 @@ import { useUtilitiesStore } from '@/stores/utils';
 let utilsStore = useUtilitiesStore();
 let svgDictionary = ref(utilsStore.svgDictionary as {[key: string] : string});
 
-defineProps({
+const props = defineProps({
     building: {
         type: Object as PropType<Building>,
         required: true
@@ -68,6 +68,10 @@ defineProps({
         type: Boolean,
         required: true
     }
+});
+
+const displayCost = computed(() => {
+    return utilsStore.ShowBigNumber(props.building.currentCost);
 });
 
 let infoPanelExpanded = ref(false as Boolean);

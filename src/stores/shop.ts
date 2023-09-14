@@ -26,6 +26,8 @@ export const useShopStore = defineStore("shop", {
 
             currentClickPower: 1 as number,
 
+            displayFlowers: "0" as string,
+
         }
     },
     getters: {
@@ -39,6 +41,11 @@ export const useShopStore = defineStore("shop", {
         reapFlower(flowerYield: number) {
 
           this.flowers += flowerYield;
+
+          // check if flowers is bigger than 1e+6
+          if (this.flowers >= 1e+6) {
+            this.displayFlowers = this.utilities.ShowBigNumber(this.flowers);
+          }
         },
         buyBuilding(buildingName: string) {
             // let building = this.buildings.find((b : [string, Building]) => b[0] === buildingName) as Building; // essentially the same if not better than a dictionary
@@ -49,6 +56,8 @@ export const useShopStore = defineStore("shop", {
             }
 
             this.flowers -= building.currentCost;
+            // resets display
+            this.reapFlower(0);
 
             building.totalOwned += 1;
 
@@ -147,6 +156,7 @@ export const useShopStore = defineStore("shop", {
           });
 
           this.flowers -= upgrade.cost;
+          this.reapFlower(0);
 
           upgrade.owned = true;
 
@@ -157,6 +167,9 @@ export const useShopStore = defineStore("shop", {
         initStore(gardenStats: GardenStats) {
             this.flowers = gardenStats.totalFlowers;
             // console.log("Init store with:" + this.flowers);
+
+            // this inits the flowerDisplay if it's bigger than 1e+6
+            this.reapFlower(0);
 
             this.upgrades = gardenStats.upgrades;
             

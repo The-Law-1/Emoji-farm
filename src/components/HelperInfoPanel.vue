@@ -22,7 +22,7 @@
           v-show="infoPanelExpanded"
           class="flex items-center">
           <div class=" text-xl">
-            {{ building.currentCost }}
+            {{  displayCost }}
           </div>
           <img class="w-8 h-8" :src="svgDictionary['blossom']" />
         </div>
@@ -69,7 +69,8 @@ const utilsStore = useUtilitiesStore();
 
 const svgDictionary = ref(utilsStore.svgDictionary);
 
-defineProps({
+
+const props = defineProps({
   infoPanelExpanded: {
     type: Boolean,
     required: true
@@ -83,5 +84,8 @@ defineProps({
     required: true
   }
 });
+
+let displayCost = ref(utilsStore.ShowBigNumber(props.building.currentCost) as string);
+
 
 </script>

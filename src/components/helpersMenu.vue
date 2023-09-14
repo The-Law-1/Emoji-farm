@@ -42,7 +42,7 @@
           :accessible="buildingAccessible(i)"
           :building="building"
           :can-buy-building="canBuyBuildings[building.name] !== undefined && canBuyBuildings[building.name]"
-          @click="() => buyBuilding(building.name)">
+          @click="() => buyBuilding(building.name, i)">
         </HelperItem>
 
       </ul>
@@ -88,7 +88,7 @@ shopStore.$subscribe((mutation, state) => {
     accessibleUpgrades.value = state.accessibleUpgrades;
 });
 
-let buildingAccessible = ref((idx) => {
+let buildingAccessible = ref((idx: number) => {
 
   let buildingsArray = Object.values(buildings.value);
 
@@ -118,8 +118,12 @@ let buildingUnlocked = ref((idx) => {
   return false;
 });
 
-let buyBuilding = ref((name: string) => {
-    shopStore.buyBuilding(name);
+let buyBuilding = ref((name: string, i: number) => {
+    console.log("Buying building: " + name + " at index: " + i);
+    console.log("Building accessible: " + buildingAccessible.value(i))
+    if (buildingAccessible.value(i)) {
+      shopStore.buyBuilding(name);
+    }
 });
 
 var props = defineProps({

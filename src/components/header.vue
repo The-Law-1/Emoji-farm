@@ -44,14 +44,16 @@ import HelpersMenu from '@/components/helpersMenu.vue';
 import { Bars4Icon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { useShopStore } from "@/stores/shop";
 import { Building } from "@/classes/building";
+import { useUtilitiesStore } from "@/stores/utils";
 
 const farmStore = useFarmStore();
 const router = useRouter();
 const shopStore = useShopStore();
+const utilsStore = useUtilitiesStore();
 
-let flowersPerSecond = ref(0 as number);
+let flowersPerSecond = ref(0 as number | string);
 
-let flowers = ref(shopStore.flowers);
+let flowers = ref(shopStore.flowers as number | string);
 
 let shopExpanded = ref(false);
 
@@ -65,13 +67,23 @@ shopStore.$subscribe((mutation, state) => {
 
     // ! cookie clicker rounds their cookies!
 
-    flowers.value = state.flowers;
+    if (state.flowers >= 1e+6) {
+      flowers.value = state.displayFlowers;
+    } else {
+      flowers.value = Math.floor(state.flowers) as number;
+    }
+
     // 0 at the end is the initial value of the accumulator
 
     // round to first decimal float
+
     flowersPerSecond.value = Object.values(state.buildings).reduce((accumulator: number, building : Building) => accumulator + building.currentPollinationPower * building.totalOwned, 0 as number);
 
     flowersPerSecond.value = Number(flowersPerSecond.value.toFixed(1));
+
+    if (flowersPerSecond.value > 1e+6) {
+      flowersPerSecond.value = utilsStore.ShowBigNumber(flowersPerSecond.value);
+    }
 });
 
 </script>

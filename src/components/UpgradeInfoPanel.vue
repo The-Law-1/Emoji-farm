@@ -16,7 +16,7 @@
           :class="canBuyUpgrade ? 'text-green-500' : 'text-red-500'"
           
             >
-          {{ upgrade.cost }}
+          {{ displayCost }}
         </div>
         <img class="w-8 h-8" :src="svgDictionary['blossom']" />
       </div>
@@ -58,6 +58,10 @@ const props = defineProps({
     type: Object as PropType<Upgrade>,
     required: true
   }
+});
+
+const displayCost = computed(() => {
+  return utilsStore.ShowBigNumber(props.upgrade.cost);
 });
 
 const canBuyUpgrade = computed(() => {

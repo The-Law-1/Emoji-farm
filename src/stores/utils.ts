@@ -26,6 +26,40 @@ export const useUtilitiesStore = defineStore('utilities', () => {
 
     const base64 = Base64;
 
+    const ShowBigNumber = (number: number) => {
+      const bigNumbers = {
+        1e+48: "Quindecillion",
+        1e+45: "Quattuordecillion",
+        1e+42: "Tredecillion",
+        1e+39: "Duodecillion",
+        1e+36: "Undecillion",
+        1e+33: "Decillion",
+        1e+30: "Nonillion",
+        1e+27: "Octillion",
+        1e+24: "Septillion",
+        1e+21: "Sextillion",
+        1e+18: "Quintillion",
+        1e+15: "Quadrillion",
+        1e+12: "Trillion",
+        1e+9: "Billion",
+        1e+6: "Million",
+      }
+
+      if (number < 1e+6) {
+        // TODO maybe with commas to show the thousands?
+        return number.toString();
+      }
+        
+
+      // ordered from big to small so we can return the first one that fits
+      for (const [key, value] of Object.entries(bigNumbers)) {
+        if (number >= Number(key)) {
+          return `${(number / Number(key)).toFixed(3)} ${value}`;
+        }
+      }
+
+    };
+
     // * Take building, hard coded upgrade, then state variables
 
     const UnlockUpgrade = (building: Building, minimumOwned: number) => {
@@ -74,5 +108,6 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       svgDictionary,
       base64,
       UpgradeFunctions,
+      ShowBigNumber
     }
 });
