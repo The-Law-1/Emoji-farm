@@ -1,11 +1,11 @@
 <template>
 
   <InfoPanel
-    class=" p-2"
+    class=" p-2 select-none"
     :info-panel-expanded="infoPanelExpanded">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
-        <img class="w-12 h-12" :src="svgDictionary[upgrade.svgPath]" />
+        <img class="w-12 h-12 pointer-events-none" :src="svgDictionary[upgrade.svgPath]" />
         <div class=" text-xl underline">
           {{ upgrade.title }}
         </div>

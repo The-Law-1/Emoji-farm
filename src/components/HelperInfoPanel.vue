@@ -1,6 +1,6 @@
 <template>
 
-  <InfoPanel :info-panel-expanded="infoPanelExpanded" class="ml-4">
+  <InfoPanel :info-panel-expanded="infoPanelExpanded" class="ml-4 select-none">
 
     <!-- DIV containing all the text and handles text animation a bit delayed -->
     <div class="text-base text-white p-2"
@@ -11,7 +11,7 @@
       <div
         class="flex justify-between items-center text-xl">
         <div class="flex items-center">
-          <img :src="svgDictionary[building.svgPath]" class="w-16" />
+          <img :src="svgDictionary[building.svgPath]" class="w-16 pointer-events-none" />
           
           <div>
             {{ building.name }}
@@ -24,7 +24,7 @@
           <div class=" text-xl">
             {{  displayCost }}
           </div>
-          <img class="w-8 h-8" :src="svgDictionary['blossom']" />
+          <img class="w-8 h-8 pointer-events-none" :src="svgDictionary['blossom']" />
         </div>
 
       </div>
@@ -40,7 +40,7 @@
           <!-- insert tiny flower image here -->
           {{ "Each unit produces " + parseFloat(building.currentPollinationPower.toFixed(2)) }}
           <span class="inline-flex" v-show="infoPanelExpanded">
-              <img class=" w-6" :src="blossom"/>
+              <img class=" w-6 pointer-events-none" :src="blossom"/>
           </span>
           <span>per second</span>
       </div>

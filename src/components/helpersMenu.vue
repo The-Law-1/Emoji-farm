@@ -1,6 +1,6 @@
 <template>
     <div
-      class="fixed h-full w-72 bg-earth text-white p-4 transition-transform duration-300 transform"
+      class="fixed h-full w-72 bg-earth text-white p-4 transition-transform duration-300 transform select-none"
       :class="{ '-translate-x-full': !expanded }"
     >
 
@@ -8,7 +8,7 @@
       <div class=" w-60">
 
         <div v-show="accessibleUpgrades.length > 0"
-          class=" text-2xl font-medium">
+          class=" text-2xl font-medium select-none">
           Upgrades
         </div>
         <div class=" flex flex-wrap">

@@ -2,7 +2,7 @@ import { Upgrade } from "./Upgrade";
 import { Building } from "./building";
 
 export class GardenStats {
-    totalFlowers: number = 1e6;
+    totalFlowers: number = 0;
 
     pollinationPower: number = 1;
 

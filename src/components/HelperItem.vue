@@ -9,7 +9,7 @@
           <div class="flex justify-between">
 
             <div class="flex">
-              <img class="w-16"
+              <img class="w-16 pointer-events-none"
                 :class="accessible ? 'brightness-100' : 'brightness-0'"
                 :src="svgDictionary[building.svgPath]" />
               <!-- name and cost div -->
@@ -23,7 +23,7 @@
                     class="flex items-center"
                     :class="(canBuyBuilding && accessible) ? 'text-white' : 'text-red-600'"
                     >
-                    <img class="w-8" :src="blossom" />
+                    <img class="w-8 pointer-events-none" :src="blossom" />
                     <span>{{ accessible ? displayCost : "???" }}</span>
                 </div>
               </div>
