@@ -12,7 +12,7 @@
 
                     <div class="flex justify-center items-center">
                         <div>
-                            <img class="w-16 pointer-events-none" :src="blossom"/>
+                            <img class="w-16 pointer-events-none select-none" :src="blossom"/>
                         </div>
                         <div class=" text-2xl">
                             {{ flowers }} 
