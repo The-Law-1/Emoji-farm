@@ -31,6 +31,8 @@ export const useShopStore = defineStore("shop", {
             handMadeFlowers: 0 as number,
 
             totalPerSecond: 0 as number,
+
+            finishedUpgrades: false as boolean // to get all the upgrades you need all the buildings
         }
     },
     getters: {
@@ -107,22 +109,23 @@ export const useShopStore = defineStore("shop", {
 
           return {args, mappedStateVariables};
         },
-        checkClickUpgradesAccessible() {
+        checkClickUpgradesAccessible(init: boolean = false) {
 
           // loop through all click upgrades
           this.upgrades["Click"].forEach((upgrade: Upgrade) => {
             // if the upgrade is already owned, or accessible, return
-            if (upgrade.owned || upgrade.accessible)
+            if (upgrade.owned || (!init && upgrade.accessible)) {
               return;
-              
+            }
+            
             let {args, mappedStateVariables} = this.getUpgradeFunctionArgs(upgrade.condition);
 
             let canGetUpgrade = this.utilities.UpgradeFunctions[upgrade.condition.functionName](null, ...args);
 
             // the condition shouldn't change our mapped state variables, so we don't need to update our state with them
-
             if (canGetUpgrade) {
 
+              let added = false;
               // order the upgrades by cost
               this.accessibleUpgrades.every((u: Upgrade, index: number) => {
                 if (upgrade.cost < u.cost) {
@@ -130,14 +133,16 @@ export const useShopStore = defineStore("shop", {
                   this.accessibleUpgrades.splice(index, 0, upgrade);
                   upgrade.accessible = true;
 
+                  added = true;
+
                   // https://masteringjs.io/tutorials/fundamentals/foreach-break
                   // * with accessibleUpgrades.every, returning false breaks the loop
                   return false;
                 }
                 return true;
               });
-              // if the upgrade still isn't accessible, push it to the end
-              if (!upgrade.accessible) {
+              // if the upgrade still isn't added, push it to the end
+              if (!added) {
                 this.accessibleUpgrades.push(upgrade);
                 upgrade.accessible = true;
               }
@@ -145,14 +150,14 @@ export const useShopStore = defineStore("shop", {
           });
         },
 
-        checkUpgradesAccessible(building: Building) {
+        checkUpgradesAccessible(building: Building, init: boolean = false) {
           // could be undefined while I am coding
           if (!this.upgrades[building.name])
             return;
 
           this.upgrades[building.name].forEach((upgrade: Upgrade) => {
 
-            if (upgrade.owned || upgrade.accessible)
+            if (upgrade.owned || (!init && upgrade.accessible))
               return;
 
             let {args, mappedStateVariables} = this.getUpgradeFunctionArgs(upgrade.condition);
@@ -163,6 +168,8 @@ export const useShopStore = defineStore("shop", {
 
             if (canGetUpgrade) {
 
+              let added = false;
+
               // order the upgrades by cost
               this.accessibleUpgrades.every((u: Upgrade, index: number) => {
                 if (upgrade.cost < u.cost) {
@@ -170,14 +177,16 @@ export const useShopStore = defineStore("shop", {
                   this.accessibleUpgrades.splice(index, 0, upgrade);
                   upgrade.accessible = true;
 
+                  added = true;
+
                   // https://masteringjs.io/tutorials/fundamentals/foreach-break
                   // * with accessibleUpgrades.every, returning false breaks the loop
                   return false;
                 }
                 return true;
               });
-              // if the upgrade still isn't accessible, push it to the end
-              if (!upgrade.accessible) {
+              // if the upgrade still isn't added, push it to the end
+              if (!added) {
                 this.accessibleUpgrades.push(upgrade);
                 upgrade.accessible = true;
               }
@@ -199,7 +208,7 @@ export const useShopStore = defineStore("shop", {
           console.log("Buy upgrade with args:", args);
 
           // building name will be null if it's a click upgrade
-          this.utilities.UpgradeFunctions[upgrade.effect.functionName](upgrade.buildingName === "" ? null : this.buildings[upgrade.buildingName], ...args);
+          this.utilities.UpgradeFunctions[upgrade.effect.functionName](upgrade.buildingName === "Click" ? null : this.buildings[upgrade.buildingName], ...args);
 
           // loop over mappedStateVariables, and if it has a value key, set the value of our state variable to the value of the value key
           // * this is some reference mumbo jumbo, but I think it works
@@ -214,10 +223,21 @@ export const useShopStore = defineStore("shop", {
 
           upgrade.owned = true;
 
+          // find it in our this.upgrades and apply owned = true
+          this.upgrades[upgrade.buildingName].find((u: Upgrade) => u.title === upgrade.title).owned = true;
+
           this.totalPerSecond = Object.values(this.buildings).reduce((accumulator: number, building : Building) => accumulator + building.currentPollinationPower * building.totalOwned, 0 as number);
 
           // TODO this filter is kind of inefficient
           this.accessibleUpgrades = this.accessibleUpgrades.filter((u: Upgrade) => u.title !== upgrade.title);
+
+          let ownedUpgrades = Object.values(this.upgrades).reduce((accumulator: number, upgrade: Upgrade) => accumulator + (upgrade.owned ? 1 : 0), 0 as number);
+
+          console.log(ownedUpgrades);
+          console.log(Object.values(this.upgrades).length);
+          if (ownedUpgrades === Object.values(this.upgrades).length) {
+            this.finishedUpgrades = true;
+          }
 
           return true;
         },
@@ -225,6 +245,12 @@ export const useShopStore = defineStore("shop", {
         initStore(gardenStats: GardenStats) {
             this.flowers = gardenStats.totalFlowers;
             // console.log("Init store with:" + this.flowers);
+
+            this.currentClickPower = gardenStats.currentClickPower;
+
+            this.handMadeFlowers = gardenStats.handMadeFlowers;
+
+            this.finishedUpgrades = gardenStats.finishedUpgrades;
 
             // this inits the flowerDisplay if it's bigger than 1e+6
             this.reapFlower(0);
@@ -236,10 +262,10 @@ export const useShopStore = defineStore("shop", {
 
             // add upgrades to accessible upgrades
             Object.values(this.buildings).forEach((building: Building) => {
-              this.checkUpgradesAccessible(building);
+              this.checkUpgradesAccessible(building, true);
             });
 
-            this.checkClickUpgradesAccessible();
+            this.checkClickUpgradesAccessible(true);
 
             this.totalBuildings = Object.keys(this.buildings).length;
 

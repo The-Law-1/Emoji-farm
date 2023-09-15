@@ -61,6 +61,8 @@ let lerp = (start, end, amt) => {
   return (1-amt)*start+amt*end;
 }
 
+let finishedUpgrades = ref(false);
+
 // subscribe to the store
 shopStore.$subscribe((mutation, state) => {
     // * this is a test of how fast pinia really is .-.
@@ -84,6 +86,8 @@ shopStore.$subscribe((mutation, state) => {
     if (flowersPerSecond.value > 1e+6) {
       flowersPerSecond.value = utilsStore.ShowBigNumber(flowersPerSecond.value);
     }
+
+    finishedUpgrades.value = state.finishedUpgrades;
 });
 
 </script>

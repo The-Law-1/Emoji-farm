@@ -2,11 +2,15 @@ import { Upgrade } from "./Upgrade";
 import { Building } from "./building";
 
 export class GardenStats {
-    totalFlowers: number = 1e12 + 1;
+    totalFlowers: number = 1;
 
     handMadeFlowers: number = 0;
 
+    finishedUpgrades: boolean = false;
+
     pollinationPower: number = 1;
+
+    currentClickPower: number = 1;
 
     buildings: {[name: string]: Building} = {
       "Bee": new Building("Bee", "A helpful bee to pollinate your flowers", 0.1, 0.1, 15, 15, 1.15, "bee"),
@@ -29,23 +33,23 @@ export class GardenStats {
       // 5 click upgrades
       "Click": [
         // min handmade for first is 1000
-        new Upgrade("Clicker enthusiast", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You have begun reading about clicking recently.", 50000,
-              { functionName: "UnlockClickPower", args: { minimumHandMade: 10, stateVariables: ["handMadeFlowers"] } },
+        new Upgrade("Clicker enthusiast", "Click", "cursor", "Clicking power gains +1% of your flowers per second.", "You have begun reading about clicking recently.", 50000,
+              { functionName: "UnlockClickPower", args: { minimumHandMade: 1000, stateVariables: ["handMadeFlowers"] } },
               { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
 
-        new Upgrade("Amateur clicker", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You talk about clicking at family dinners.", 5000000,
+        new Upgrade("Amateur clicker", "Click", "cursor", "Clicking power gains +1% of your flowers per second.", "You talk about clicking at family dinners.", 5000000,
               { functionName: "UnlockClickPower", args: { minimumHandMade: 100000, stateVariables: ["handMadeFlowers"] } },
               { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
 
-        new Upgrade("Clicker enjoyer", "", "cursor", "Clicking power gains +1% of your flowers per second.", "In your free time you click.", 500000000,
+        new Upgrade("Clicker enjoyer", "Click", "cursor", "Clicking power gains +1% of your flowers per second.", "In your free time you click.", 500000000,
               { functionName: "UnlockClickPower", args: { minimumHandMade: 10000000, stateVariables: ["handMadeFlowers"] } },
               { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
 
-        new Upgrade("Clicker professional", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You know everything there is to know about clicking.", 50000000000,
+        new Upgrade("Clicker professional", "Click", "cursor", "Clicking power gains +1% of your flowers per second.", "You know everything there is to know about clicking.", 50000000000,
               { functionName: "UnlockClickPower", args: { minimumHandMade: 1000000000000, stateVariables: ["handMadeFlowers"] } },
               { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
 
-        new Upgrade("Clicker god", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You have entered a parallel universe where you are worshipped for your clicking prowess.", 5000000000000,
+        new Upgrade("Clicker god", "Click", "cursor", "Clicking power gains +1% of your flowers per second.", "You have entered a parallel universe where you are worshipped for your clicking prowess.", 5000000000000,
               { functionName: "UnlockClickPower", args: { minimumHandMade: 100000000000, stateVariables: ["handMadeFlowers"] } },
               { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
       ],

@@ -10,15 +10,18 @@
       :id="'Clicknumber-' + i"
       :class="`absolute select-none animate-fade_out`"
       class=" opacity-0  text-2xl pointer-events-none bg-opacity-75 bg-yellow-300 rounded-md">
-      {{ "+" + currentClickPower }}
+      {{ "+" + currentClickPower.toLocaleString() }}
     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
+import { useUtilitiesStore } from '@/stores/utils';
 import { useFarmStore } from '@/stores/farm';
 import { useShopStore } from '@/stores/shop';
 import { nextTick, onMounted, ref, watch } from 'vue';
+import Footer from './footer.vue';
 
 const props = defineProps({
     skin: {
@@ -29,11 +32,20 @@ const props = defineProps({
 
 const farmStore = useFarmStore();
 const shopStore = useShopStore();
+const utilsStore = useUtilitiesStore();
 
+// this should probably use utilsStore.showBigNumbers but I can't get it to work
 let currentClickPower = ref(shopStore.currentClickPower as number);
 
+
 shopStore.$subscribe((mutation, state) => {
-    currentClickPower.value = state.currentClickPower;
+
+  if (state.currentClickPower > currentClickPower.value) {
+    // clear the clickNumbers array
+    clickNumbers.value = [];
+  }
+
+  currentClickPower.value = state.currentClickPower;
 });
 
 let clickNumbers = ref([]);
