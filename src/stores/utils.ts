@@ -32,7 +32,7 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       return parts.join(".");
     }
 
-    const ShowBigNumber = (number: number) => {
+    const ShowBigNumber = (number: number, precision: number = 3) => {
       const bigNumbers = {
         1e+48: "Quindecillion",
         1e+45: "Quattuordecillion",
@@ -62,12 +62,16 @@ export const useUtilitiesStore = defineStore('utilities', () => {
         // return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
 
+      let lastFound = "";
+
       // ordered from big to small so we can return the first one that fits
       for (const [key, value] of Object.entries(bigNumbers)) {
         if (number >= Number(key)) {
-          return `${(number / Number(key)).toFixed(3)} ${value}`;
+          lastFound = `${(number / Number(key)).toFixed(precision)} ${value}`;
         }
       }
+
+      return lastFound;
 
     };
 

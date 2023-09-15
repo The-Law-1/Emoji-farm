@@ -2,7 +2,7 @@ import { Upgrade } from "./Upgrade";
 import { Building } from "./building";
 
 export class GardenStats {
-    totalFlowers: number = 0;
+    totalFlowers: number = 1e12 + 1;
 
     pollinationPower: number = 1;
 
@@ -18,7 +18,7 @@ export class GardenStats {
       // Tree of Life: Plant a special tree that supports diverse wildlife and serves as the heart of your garden ecosystem.
       "Tree of Life": new Building("Tree of Life", "Plant a special tree that supports diverse wildlife and serves as the heart of your garden ecosystem.", 1400, 1400, 1400000, 1400000, 1.15, "treeLife"),
       // Fairy Fountains: Install enchanting fountains that provide a water source for both your garden and local fairies.
-      "Fairy Fountain": new Building("Fairy Fountain", "Install enchanting fountains that provide a water source for both your garden and local fairies.", 8000, 8000, 20000000, 20000000, 1.15, "fountain"),
+      "Fairy Fountain": new Building("Fairy Fountain", "Enchanting fountains, a water source for your garden and local fairies.", 8000, 8000, 20000000, 20000000, 1.15, "fountain"),
     };
 
     // * the names must correspond to building.name

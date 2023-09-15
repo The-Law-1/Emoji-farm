@@ -1,6 +1,6 @@
 <template>
     <div
-      class="fixed h-full w-72 bg-earth text-white p-4 transition-transform duration-300 transform select-none"
+      class="fixed h-full z-10 w-72 bg-earth text-white p-4 transition-transform duration-300 transform select-none"
       :class="{ '-translate-x-full': !expanded }"
     >
 
@@ -11,7 +11,7 @@
           class=" text-2xl font-medium select-none">
           Upgrades
         </div>
-        <div class=" flex flex-wrap">
+        <div class=" overflow-y-scroll h-24 flex flex-wrap">
           <HelperUpgrade v-for="(upgrade, idx) in accessibleUpgrades"
             :upgrade="upgrade"
             :key="upgrade.title"

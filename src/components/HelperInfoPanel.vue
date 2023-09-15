@@ -11,7 +11,7 @@
       <div
         class="flex justify-between items-center text-xl">
         <div class="flex items-center">
-          <img :src="svgDictionary[building.svgPath]" class="w-16 pointer-events-none" />
+          <img v-show="infoPanelExpanded" :src="svgDictionary[building.svgPath]" class="w-16 pointer-events-none" />
           
           <div>
             {{ building.name }}
@@ -45,7 +45,7 @@
           <span>per second</span>
       </div>
       <div :class="{ 'bg-gray-400 bg-opacity-50 rounded-md italic text-sm' : (infoPanelExpanded)}">
-          {{ building.totalOwned + " producing " + (building.currentPollinationPower * building.totalOwned).toFixed(1) + " per second" }}
+          {{ building.totalOwned + " producing " + (building.currentPollinationPower * building.totalOwned).toLocaleString() + " per second" }}
       </div>
       <!-- How many you have, producing x per second -->
       <!-- Cookies generated so far? -->

@@ -29,7 +29,7 @@
       {{ upgrade.description }}
     </div>
 
-    <div class="flex justify-end text-gray-500 italic text-sm">
+    <div class="flex justify-end text-gray-400 italic text-sm">
       {{ upgrade.subDescription }}
     </div>
 

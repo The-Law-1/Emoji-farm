@@ -2,7 +2,7 @@
   <div class="relative">
 
       <!-- Clicking this will give you 1 x clickpower flowers -->
-    <img class=" w-80 cursor-pointer select-none" style="user-drag: none; -webkit-user-drag: none;" :src="skin" @click="clickedFlower"/>
+    <img class="w-80 cursor-pointer select-none" style="user-drag: none; -webkit-user-drag: none;" :src="skin" @click="clickedFlower"/>
       
       <!-- place this div randomly every click -->
     <div v-for="(clickNumber, i) in clickNumbers"

@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class=" text-center">
-                        Per second: {{ flowersPerSecond }}
+                        Per second: {{ flowersPerSecond.toLocaleString()  }}
                     </div>
                 </div>
             </div>

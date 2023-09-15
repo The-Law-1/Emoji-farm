@@ -20,7 +20,7 @@
                 </div>
       
                 <div
-                    class="flex items-center"
+                    class="flex items-center  text-base"
                     :class="(canBuyBuilding && accessible) ? 'text-white' : 'text-red-600'"
                     >
                     <img class="w-8 pointer-events-none" :src="blossom" />
@@ -71,7 +71,7 @@ const props = defineProps({
 });
 
 const displayCost = computed(() => {
-    return utilsStore.ShowBigNumber(props.building.currentCost);
+    return utilsStore.ShowBigNumber(props.building.currentCost, 2);
 });
 
 let infoPanelExpanded = ref(false as Boolean);
