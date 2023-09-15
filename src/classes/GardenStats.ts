@@ -4,6 +4,8 @@ import { Building } from "./building";
 export class GardenStats {
     totalFlowers: number = 1e12 + 1;
 
+    handMadeFlowers: number = 0;
+
     pollinationPower: number = 1;
 
     buildings: {[name: string]: Building} = {
@@ -23,6 +25,31 @@ export class GardenStats {
 
     // * the names must correspond to building.name
     upgrades: {[name: string]: Upgrade[]} = {
+
+      // 5 click upgrades
+      "Click": [
+        // min handmade for first is 1000
+        new Upgrade("Clicker enthusiast", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You have begun reading about clicking recently.", 50000,
+              { functionName: "UnlockClickPower", args: { minimumHandMade: 10, stateVariables: ["handMadeFlowers"] } },
+              { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
+
+        new Upgrade("Amateur clicker", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You talk about clicking at family dinners.", 5000000,
+              { functionName: "UnlockClickPower", args: { minimumHandMade: 100000, stateVariables: ["handMadeFlowers"] } },
+              { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
+
+        new Upgrade("Clicker enjoyer", "", "cursor", "Clicking power gains +1% of your flowers per second.", "In your free time you click.", 500000000,
+              { functionName: "UnlockClickPower", args: { minimumHandMade: 10000000, stateVariables: ["handMadeFlowers"] } },
+              { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
+
+        new Upgrade("Clicker professional", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You know everything there is to know about clicking.", 50000000000,
+              { functionName: "UnlockClickPower", args: { minimumHandMade: 1000000000000, stateVariables: ["handMadeFlowers"] } },
+              { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
+
+        new Upgrade("Clicker god", "", "cursor", "Clicking power gains +1% of your flowers per second.", "You have entered a parallel universe where you are worshipped for your clicking prowess.", 5000000000000,
+              { functionName: "UnlockClickPower", args: { minimumHandMade: 100000000000, stateVariables: ["handMadeFlowers"] } },
+              { functionName: "UpgradeClickPower", args: { improvement: 1.01, stateVariables: ["currentClickPower", "totalPerSecond"] } }),
+      ],
+
       "Bee": [
         new Upgrade("Faster bees", "Bee", "bee", "Bees and cursor are twice as efficient", "Bzzzzzz", 100,
                     { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 1, stateVariables: [] } },
@@ -32,14 +59,26 @@ export class GardenStats {
                   { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 5, stateVariables: [] } },
                   { functionName: "UpgradeBuildingPollinationPercent", args: { improvement: 2, stateVariables: [] } }),
 
-        new Upgrade("Winged couriers", "Bee", "bee", "Bees and cursor are twice as efficient", "Sure beats the old wax versions", 10000,
+        new Upgrade("Winged couriers", "Bee", "bee", "Bees and cursor are twice as efficient", "Sure beats the old wax wings", 10000,
                   { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 10, stateVariables: [] } },
                   { functionName: "UpgradeClickAndBuildingPower", args: { improvement: 2, stateVariables: ["currentClickPower"] } }),
 
         new Upgrade("Beehive harmony", "Bee", "bee", "Bees and cursor are 10% more efficient for each non-bee helper owned.", "We all love a good icebreaker", 100000,
                   { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 25, stateVariables: [] } },
                   { functionName: "ClickAndBuildingCollectionBonus", args: { improvement: 1.1, stateVariables: ["currentClickPower", "buildings"] } }),
-            ],
+
+        new Upgrade("Beehive expansion", "Bee", "bee", "Bees and cursor are 10% more efficient for each non-bee helper owned.", "Beez-ness is booming", 100000,
+                { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 25, stateVariables: [] } },
+                { functionName: "ClickAndBuildingCollectionBonus", args: { improvement: 1.1, stateVariables: ["currentClickPower", "buildings"] } }),
+
+        new Upgrade("Queen Bee's blessing", "Bee", "bee", "Bees and cursor are 10% more efficient for each non-bee helper owned.", "Beats every poker hand", 10000000,
+                { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 50, stateVariables: [] } },
+                { functionName: "ClickAndBuildingCollectionBonus", args: { improvement: 1.1, stateVariables: ["currentClickPower", "buildings"] } }),
+
+        new Upgrade("Bee-hive mind", "Bee", "bee", "Bees and cursor are 10% more efficient for each non-bee helper owned.", "It's mostly thoughts of honey", 100000000,
+                { functionName: "UnlockUpgradeOwnedRequirements", args: { minimumOwned: 100, stateVariables: [] } },
+                { functionName: "ClickAndBuildingCollectionBonus", args: { improvement: 1.1, stateVariables: ["currentClickPower", "buildings"] } }),
+        ],
 
       "Dew collector": [
         new Upgrade("Aqua booster", "Dew collector", "droplet", "Dew collectors are twice as efficient", "Advanced condensation technology", 1000,

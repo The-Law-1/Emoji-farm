@@ -9,7 +9,7 @@
       :key="'Clicknumber-' + i" 
       :id="'Clicknumber-' + i"
       :class="`absolute select-none animate-fade_out`"
-      class=" opacity-0  text-2xl pointer-events-none">
+      class=" opacity-0  text-2xl pointer-events-none bg-opacity-75 bg-yellow-300 rounded-md">
       {{ "+" + currentClickPower }}
     </div>
   </div>

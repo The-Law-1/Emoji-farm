@@ -11,7 +11,7 @@
           class=" text-2xl font-medium select-none">
           Upgrades
         </div>
-        <div class=" overflow-y-scroll h-24 flex flex-wrap">
+        <div class="flex flex-wrap" :class="accessibleUpgrades.length > 0 ? 'h-24 overflow-y-scroll' : 'h-fit'">
           <HelperUpgrade v-for="(upgrade, idx) in accessibleUpgrades"
             :upgrade="upgrade"
             :key="upgrade.title"

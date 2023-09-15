@@ -7,6 +7,7 @@ import fountain from "@/assets/Helpers/fountain.svg";
 import rain from "@/assets/Helpers/rain.svg";
 import treeLife from "@/assets/Helpers/treelife.svg";
 import wizard from "@/assets/Helpers/wizard.svg";
+import cursor from "@/assets/cursor.svg";
 import { defineStore } from 'pinia';
 import { Base64 } from "./utils/base64";
 import { Building } from "@/classes/building";
@@ -21,7 +22,8 @@ export const useUtilitiesStore = defineStore('utilities', () => {
         fountain,
         rain,
         treeLife,
-        wizard
+        wizard,
+        cursor
     };
 
     const base64 = Base64;
@@ -83,6 +85,18 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       }
       return false;
     }
+
+    // we always call with the building that is being upgraded, so this will take null
+    const UnlockClickPower = (building: Building, minimumHandMade: number, currentHandMade: any) => {
+      if (currentHandMade.value >= minimumHandMade) {
+        return true;
+      }
+      return false;
+    }
+
+    const UpgradeClickPower = (building: Building, improvement: number, currentClickPower: any, totalPerSecond: any) => {
+      currentClickPower.value += totalPerSecond.value * improvement;
+    }
     
     const UpgradeBuilding = (building: Building, improvement: number) => {
       building.currentPollinationPower *= improvement;
@@ -116,7 +130,9 @@ export const useUtilitiesStore = defineStore('utilities', () => {
       "UnlockUpgradeOwnedRequirements": UnlockUpgrade,
       "UpgradeBuildingPollinationPercent": UpgradeBuilding,
       "UpgradeClickAndBuildingPower": UpgradeBees,
-      "ClickAndBuildingCollectionBonus": ClickAndBuildingCollectionBonus
+      "ClickAndBuildingCollectionBonus": ClickAndBuildingCollectionBonus,
+      UnlockClickPower,
+      UpgradeClickPower
     } as {[key: string]: Function};
 
     

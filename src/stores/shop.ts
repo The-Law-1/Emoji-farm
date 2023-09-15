@@ -28,6 +28,9 @@ export const useShopStore = defineStore("shop", {
 
             displayFlowers: "0" as string,
 
+            handMadeFlowers: 0 as number,
+
+            totalPerSecond: 0 as number,
         }
     },
     getters: {
@@ -36,6 +39,12 @@ export const useShopStore = defineStore("shop", {
     actions: {
         clickOnFlower() {
           this.reapFlower(this.currentClickPower);
+
+          // increment hand-made flowers
+
+          this.handMadeFlowers += this.currentClickPower;
+
+          this.checkClickUpgradesAccessible();
         },
         // hoping no entity has the power to reap more than 2^53 flowers
         reapFlower(flowerYield: number) {
@@ -63,6 +72,8 @@ export const useShopStore = defineStore("shop", {
             building.currentCost = Math.round(building.baseCost * Math.pow(building.costMultiplier, building.totalOwned));
 
             this.checkUpgradesAccessible(building);
+
+            this.totalPerSecond = Object.values(this.buildings).reduce((accumulator: number, building : Building) => accumulator + building.currentPollinationPower * building.totalOwned, 0 as number);
         },
         // sending args to be modified by reference
         getUpgradeFunctionArgs(upgradeFunctionArgs: { functionName: string, args: any}) {
@@ -96,6 +107,44 @@ export const useShopStore = defineStore("shop", {
 
           return {args, mappedStateVariables};
         },
+        checkClickUpgradesAccessible() {
+
+          // loop through all click upgrades
+          this.upgrades["Click"].forEach((upgrade: Upgrade) => {
+            // if the upgrade is already owned, or accessible, return
+            if (upgrade.owned || upgrade.accessible)
+              return;
+              
+            let {args, mappedStateVariables} = this.getUpgradeFunctionArgs(upgrade.condition);
+
+            let canGetUpgrade = this.utilities.UpgradeFunctions[upgrade.condition.functionName](null, ...args);
+
+            // the condition shouldn't change our mapped state variables, so we don't need to update our state with them
+
+            if (canGetUpgrade) {
+
+              // order the upgrades by cost
+              this.accessibleUpgrades.every((u: Upgrade, index: number) => {
+                if (upgrade.cost < u.cost) {
+                  console.log("Adding upgrade ", upgrade.title, " at index ", index);
+                  this.accessibleUpgrades.splice(index, 0, upgrade);
+                  upgrade.accessible = true;
+
+                  // https://masteringjs.io/tutorials/fundamentals/foreach-break
+                  // * with accessibleUpgrades.every, returning false breaks the loop
+                  return false;
+                }
+                return true;
+              });
+              // if the upgrade still isn't accessible, push it to the end
+              if (!upgrade.accessible) {
+                this.accessibleUpgrades.push(upgrade);
+                upgrade.accessible = true;
+              }
+            }
+          });
+        },
+
         checkUpgradesAccessible(building: Building) {
           // could be undefined while I am coding
           if (!this.upgrades[building.name])
@@ -135,8 +184,8 @@ export const useShopStore = defineStore("shop", {
             }
           });
         },
-
         buyUpgrade(upgrade: Upgrade) {
+
           if (upgrade.cost > this.flowers)
             return false;
 
@@ -149,7 +198,8 @@ export const useShopStore = defineStore("shop", {
 
           console.log("Buy upgrade with args:", args);
 
-          this.utilities.UpgradeFunctions[upgrade.effect.functionName](this.buildings[upgrade.buildingName], ...args);
+          // building name will be null if it's a click upgrade
+          this.utilities.UpgradeFunctions[upgrade.effect.functionName](upgrade.buildingName === "" ? null : this.buildings[upgrade.buildingName], ...args);
 
           // loop over mappedStateVariables, and if it has a value key, set the value of our state variable to the value of the value key
           // * this is some reference mumbo jumbo, but I think it works
@@ -163,6 +213,8 @@ export const useShopStore = defineStore("shop", {
           this.reapFlower(0);
 
           upgrade.owned = true;
+
+          this.totalPerSecond = Object.values(this.buildings).reduce((accumulator: number, building : Building) => accumulator + building.currentPollinationPower * building.totalOwned, 0 as number);
 
           // TODO this filter is kind of inefficient
           this.accessibleUpgrades = this.accessibleUpgrades.filter((u: Upgrade) => u.title !== upgrade.title);
@@ -186,6 +238,8 @@ export const useShopStore = defineStore("shop", {
             Object.values(this.buildings).forEach((building: Building) => {
               this.checkUpgradesAccessible(building);
             });
+
+            this.checkClickUpgradesAccessible();
 
             this.totalBuildings = Object.keys(this.buildings).length;
 

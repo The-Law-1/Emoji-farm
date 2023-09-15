@@ -22,6 +22,8 @@ export const useFarmStore = defineStore("farm", {
     actions: {
         saveFarm() {
 
+            this.gardenStats.handMadeFlowers = this.shopStore.handMadeFlowers;
+
             this.gardenStats.totalFlowers = this.shopStore.flowers;
 
             this.gardenStats.upgrades = this.shopStore.upgrades;
