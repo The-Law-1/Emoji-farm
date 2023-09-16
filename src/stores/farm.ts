@@ -39,6 +39,8 @@ export const useFarmStore = defineStore("farm", {
 
             // store encoded string in local storage
             localStorage.setItem("gardenStats", encoded);
+
+            alert("Game saved!");
         },
         clearFarm() {
             localStorage.removeItem("gardenStats");
