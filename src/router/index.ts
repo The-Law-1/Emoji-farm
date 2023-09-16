@@ -6,7 +6,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
+      path: "/Emoji-farm/",
       name: "farm",
       component: farmVue,
       meta: {
