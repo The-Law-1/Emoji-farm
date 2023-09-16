@@ -2,7 +2,7 @@ import { Upgrade } from "./Upgrade";
 import { Building } from "./building";
 
 export class GardenStats {
-    totalFlowers: number = 1;
+    totalFlowers: number = 0;
 
     handMadeFlowers: number = 0;
 
